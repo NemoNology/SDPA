@@ -1,7 +1,8 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <exception>
-#include "ADT_Time.h"
+#include "Time.h"
+#include "File_Unit.h"
 
 
 
@@ -12,20 +13,34 @@ using namespace std;
 int main()
 {
     
+    setlocale(LC_ALL, "Russian");
 
-    Time t1(12, 4, 4);
+    fstream f;
 
-    t1.Get_time_Console();
+    f.open("Res.txt");
 
-    t1.Set_hour(18);
+
+    Time t1(12, 5, 4);
+
+
+   Record_to_file(f, t1.Get_string_time());
+
+
+    t1.Set_hour(14);
 
     t1.Set_minute(27);
 
     t1.Set_second(9);
 
 
-    cout << "Моих минут: " << t1.Get_minute() << "\t Часиков-то уже " << t1.Get_hour() << "! Пора бы удаляться из бара и идти делать дела...\n";
+    Record_to_file(f, "Hour (Not seconds!):" + t1.Get_hour());
 
 
+    Record_to_file(f, "New data:\n" + t1.Get_string_time());
+    
+
+    system("pause");
+
+    return 0;
 
 }
