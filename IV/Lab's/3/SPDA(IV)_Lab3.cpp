@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <fstream>
-#include <vector>
 #include <string>
 #include "FileUnit.h"
 
@@ -11,8 +10,15 @@ using namespace std;
 // Рекурсивная функция: вывод строки в обратной последовательности
 string ReverseString(string s) 
 {
+	// База
+	if (s.empty()) {
+		
+		return "";
 
-	return "//todo:";
+	}
+
+	// Шаг
+	return ReverseString(s.substr(1, s.size() - 1)) + s.front();
 
 }
 
@@ -28,8 +34,8 @@ int main()
 	FInName = "Data.txt";
 	FOutname = "Res.txt";
 
-	cout << FileRead(FInName);
-
+	cout << "Data:\t" << FileRead(FInName) << "\n";
+	cout << "Result:\t" << ReverseString(FileRead(FInName)) << "\n";
 
 
 	system("pause");
