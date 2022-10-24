@@ -10,14 +10,16 @@ using type = int;
 int main()
 {
 
-    
-    TreeNode<type> Tn1(25,  new TreeNode<type>(29), new TreeNode<type>(11));
+    TreeNode<type> Tn1(25, new TreeNode<type>(21), new TreeNode<type>(22));
 
-    TreeNode<type> Tn1L = Tn1.GetLeft();
-    TreeNode<type> Tn1R = Tn1.GetLeft();
+    Tn1.SetChild(392, 999);
 
-    Tn1L.SetChild(nullptr, new TreeNode<int>(20));
-    Tn1R.SetChild(new TreeNode<int>(22));
+    TreeNode<type> Tn2(70, new TreeNode<type>(20), new TreeNode<type>(10));
+
+    Tn1.Left()->SetChild(Tn2, Tn2);
+
+    //Tn1L->SetChild(NULL, 20);
+    //Tn1R->SetChild(22);
 
     
     system("pause");
