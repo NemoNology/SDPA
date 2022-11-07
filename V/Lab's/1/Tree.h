@@ -13,9 +13,8 @@ template <class T> class TreeNode
 private: 
 	
 	// Left and right nodes
-	TreeNode<T> * _left;
-	TreeNode<T> * _right;
-	//TreeNode<T> * _parent;
+	TreeNode<T> *_left;
+	TreeNode<T> *_right;
 
 public:
 
@@ -24,74 +23,81 @@ public:
 
 	// Конструктор
 	// Constuctor
-	TreeNode(const T& data, TreeNode<T> * l = NULL, TreeNode<T> * r = NULL)//, TreeNode<T> * p = NULL)
+	TreeNode(const T& data, TreeNode<T> *l = NULL, TreeNode<T> *r = NULL)
 	{
 		_data = data;
 		_left = l;
 		_right = r;
-		//_parent = p;
 	}
 
-	TreeNode(const T& data, TreeNode<T> l = NULL, TreeNode<T> r = NULL)//, TreeNode<T> * p = NULL)
-	{
-		_data = data;
-		_left = new TreeNode<T>(l._data, l.Left(), l.Right());
-		_right = new TreeNode<T>(r._data, r.Left(), r.Right());
-		//_parent = new TreeNode<T>(p._data, p.Left(), p.Right());
-	}
 
-	TreeNode(const T& data, const T& ldata, const T& rdata)
-	{
-		_data = data;
-		_left = new TreeNode<T>(ldata);
-		_right = new TreeNode<T>(rdata);
-	}
-
-	
-	TreeNode<T> * Left(void) const
+	TreeNode<T> *Left(void) const
 	{
 		return _left;
 	}
-	TreeNode<T> * Right(void) const
+	TreeNode<T> *Right(void) const
 	{
 		return _right;
 	}
-	// todo: parent
-	/*TreeNode<T> * Parent(void) const
+	TreeNode<T> *This(void)
 	{
-		retunr _parent;
-	}*/
-	
-
-	void SetChild(TreeNode<T> l = NULL, TreeNode<T> r = NULL)
-	{
-		_left = new TreeNode<T>(l._data, l.Left(), l.Right());
-		_right = new TreeNode<T>(r._data, r.Left(), r.Right(), this);
-
-	}
-
-	void SetChild(TreeNode<T>* l = NULL, TreeNode<T>* r = NULL)
-	{
-		_left = new TreeNode<T>(l->_data, l->Left(), l->Right());
-		_right = new TreeNode<T>(r->_data, r->Left(), r->Right());
-
-	}
-
-	void SetChild(T l = NULL, T r = NULL)
-	{
-		_left = new TreeNode<T>(l);
-		_right = new TreeNode<T>(r);
+		return this;
 	}
 
 
-	// todo: delete/deconstuctor
-	/*~TreeNode(TreeNode<T> TN)
+	void SetChild(TreeNode<T> *l = NULL, TreeNode<T> *r = NULL)
 	{
-		while ((TN.Left() != nullptr) || (TN.Right() != nullptr))
+		_left = l;
+		_right = r;
+
+	}
+
+	void ShowData()
+	{
+		cout << _data;
+	}
+
+	void DeleteSimple()
+	{
+		delete this;
+	}
+
+	void Delete()
+	{
+		TreeNode<T> *root = this, *temp;
+
+		temp = root;
+
+
+		// todo: Change the algoritm
+
+		while ((root->Left() != nullptr) || (root->Right() != nullptr))
 		{
-			while (TN.)
+			while ((temp->Left() != nullptr) || (temp->Right() != nullptr))
+			{
+				if (temp->Left() != nullptr)
+				{
+					temp = temp->Left();
+				}
+				else if (temp->Right() != nullptr)
+				{
+					temp = temp->Right();
+				}
+				
+			}
+
+			// todo: invalid work of 'delete'
+			// WISH: temp = 0x00000000000000... = NULL
+			// REAL: temp = 0xdddddddddddddd... = ????? (Reading is impossible)
+			temp->DeleteSimple();
+
+			temp = root;
+
 		}
-	}*/
+
+		
+	}
+
 
 
 	friend class BinTree<T>;
