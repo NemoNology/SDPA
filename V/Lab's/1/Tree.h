@@ -1,8 +1,9 @@
 #pragma once
+#include <vector>
 
 
 using namespace std;
-
+using uint = unsigned int;
 
 template <class T> class BinTree;
 
@@ -23,7 +24,7 @@ public:
 
 	// Конструктор
 	// Constuctor
-	TreeNode(const T& data, TreeNode<T> *l = NULL, TreeNode<T> *r = NULL)
+	TreeNode(const T& data, TreeNode<T> *l = nullptr, TreeNode<T> *r = nullptr)
 	{
 		_data = data;
 		_left = l;
@@ -45,7 +46,7 @@ public:
 	}
 
 
-	void SetChild(TreeNode<T> *l = NULL, TreeNode<T> *r = NULL)
+	void SetChild(TreeNode<T> *l = nullptr, TreeNode<T> *r = nullptr)
 	{
 		_left = l;
 		_right = r;
@@ -57,44 +58,60 @@ public:
 		cout << _data;
 	}
 
-	void DeleteSimple()
+	uint GetDepth(uint number = nullptr)
 	{
-		delete this;
+		TreeNode<T> *temp = this;
+		uint counter = number;
+		
+
+		while ((temp->Left() != nullptr) || (temp->Right() != nullptr))
+		{
+			if (temp->Left() == nullptr)
+			{
+				temp = temp->Right();
+				counter++;
+			}
+			else if (temp->Right() == nullptr)
+			{
+				temp = temp->Left();
+				counter++;
+			}
+			else
+			{
+				uint tempc = counter;
+				counter = temp->Left()->GetDepth(tempc + 1);
+				counter = temp->Right()->GetDepth(tempc + 1);
+
+				break;
+			}
+		}
+		
+		return counter;
+
 	}
 
 	void Delete()
 	{
-		TreeNode<T> *root = this, *temp;
+		TreeNode<T> *temp = this;
 
-		temp = root;
-
-
-		// todo: Change the algoritm
-
-		while ((root->Left() != nullptr) || (root->Right() != nullptr))
+		while ((temp->Left() != nullptr) || (temp->Right() != nullptr))
 		{
-			while ((temp->Left() != nullptr) || (temp->Right() != nullptr))
+			if (temp->Left() == nullptr)
 			{
-				if (temp->Left() != nullptr)
-				{
-					temp = temp->Left();
-				}
-				else if (temp->Right() != nullptr)
-				{
-					temp = temp->Right();
-				}
-				
+				temp = temp->Right();
 			}
-
-			// todo: invalid work of 'delete'
-			// WISH: temp = 0x00000000000000... = NULL
-			// REAL: temp = 0xdddddddddddddd... = ????? (Reading is impossible)
-			temp->DeleteSimple();
-
-			temp = root;
-
+			else if (temp->Right() == nullptr)
+			{
+				temp = temp->Left();
+			}
+			else
+			{
+				temp->Left()->Delete();
+				temp->Right()->Delete();
+			}
 		}
 
+		delete temp;
 		
 	}
 
