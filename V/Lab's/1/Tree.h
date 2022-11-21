@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "MathModule.h"
 
 
 using namespace std;
@@ -58,10 +59,10 @@ public:
 		cout << _data;
 	}
 
-	uint GetDepth(uint number = nullptr)
+	uint GetDepth(uint number = NULL)
 	{
 		TreeNode<T> *temp = this;
-		uint counter = number;
+		uint counter = number, lc = 0, rc = 0;
 		
 
 		while ((temp->Left() != nullptr) || (temp->Right() != nullptr))
@@ -78,15 +79,16 @@ public:
 			}
 			else
 			{
-				uint tempc = counter;
-				counter = temp->Left()->GetDepth(tempc + 1);
-				counter = temp->Right()->GetDepth(tempc + 1);
+				lc = temp->Left()->GetDepth(counter + 1);
+				rc = temp->Right()->GetDepth(counter + 1);
 
 				break;
 			}
 		}
 		
-		return counter;
+		return Max(lc, rc, counter);
+
+		
 
 	}
 
@@ -114,7 +116,6 @@ public:
 		delete temp;
 		
 	}
-
 
 
 	friend class BinTree<T>;
