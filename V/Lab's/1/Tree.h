@@ -25,7 +25,7 @@ public:
 
 	// Конструктор
 	// Constuctor
-	TreeNode(const T& data, TreeNode<T> *l = nullptr, TreeNode<T> *r = nullptr)
+	TreeNode(const T& data, TreeNode<T> *l = NULL, TreeNode<T> *r = NULL)
 	{
 		_data = data;
 		_left = l;
@@ -47,7 +47,7 @@ public:
 	}
 
 
-	void SetChild(TreeNode<T> *l = nullptr, TreeNode<T> *r = nullptr)
+	void SetChild(TreeNode<T> *l = NULL, TreeNode<T> *r = NULL)
 	{
 		_left = l;
 		_right = r;
@@ -65,14 +65,14 @@ public:
 		uint counter = number, lc = 0, rc = 0;
 		
 
-		while ((temp->Left() != nullptr) || (temp->Right() != nullptr))
+		while ((temp->Left() != NULL) || (temp->Right() != NULL))
 		{
-			if (temp->Left() == nullptr)
+			if (temp->Left() == NULL)
 			{
 				temp = temp->Right();
 				counter++;
 			}
-			else if (temp->Right() == nullptr)
+			else if (temp->Right() == NULL)
 			{
 				temp = temp->Left();
 				counter++;
@@ -92,17 +92,25 @@ public:
 
 	}
 
+	void Free()
+	{
+		delete this;
+		this->_left = NULL;
+		this->_right = NULL;
+		this->_data = NULL;
+	}
+
 	void Delete()
 	{
 		TreeNode<T> *temp = this;
 
-		while ((temp->Left() != nullptr) || (temp->Right() != nullptr))
+		while ((temp->Left() != NULL) || (temp->Right() != NULL))
 		{
-			if (temp->Left() == nullptr)
+			if (temp->Left() == NULL)
 			{
 				temp = temp->Right();
 			}
-			else if (temp->Right() == nullptr)
+			else if (temp->Right() == NULL)
 			{
 				temp = temp->Left();
 			}
@@ -113,7 +121,8 @@ public:
 			}
 		}
 
-		delete temp;
+		temp->Free();
+		temp = NULL;
 		
 	}
 

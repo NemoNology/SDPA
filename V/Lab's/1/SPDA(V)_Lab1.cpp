@@ -10,12 +10,15 @@ using type = int;
 int main()
 {
 
-    TreeNode<type> *tn0, *tn1, *tn2, *tn3, *tn4, *tn5, *tn6, *tn7;
+    TreeNode<type> *tn0 = NULL, *tn1 = NULL, 
+        *tn2 = NULL, *tn3 = NULL, *tn4 = NULL, 
+        *tn5 = NULL, *tn6 = NULL, *tn7 = NULL;
 
     //tn7 = new TreeNode<type>(130);
 
     tn5 = new TreeNode<type>(130);
     //tn6 = new TreeNode<type>(160, tn7);
+
 
     tn4 = new TreeNode<type>(140);  //, tn5, tn6);
     tn3 = new TreeNode<type>(60, tn5);
@@ -27,7 +30,8 @@ int main()
 
     cout << tn0->GetDepth() << "\n";
 
-    //tn0->Delete();
+    tn4->Delete();
+    tn4 = NULL;
     
     system("pause");
     return 0;
