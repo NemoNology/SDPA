@@ -52,5 +52,7 @@ template <class T> auto Pow(T a, int degree)
 	{
 		return 1 / res;
 	}
+
+	return res;
 	
 }
