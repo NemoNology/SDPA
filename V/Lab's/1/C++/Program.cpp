@@ -1,11 +1,20 @@
 ﻿#include <iostream>
+#include "BinaryTreeNode.h"
 
 using namespace std;
 
+using type = int;
+
 int main()
 {
-    cout << "Hello world!" << endl;
+    auto root = new BinaryTreeNode<type>(4, new BinaryTreeNode<type>(1), new BinaryTreeNode<type>(6));
 
-    system("pause");
+    cout << "Root: " << root->toString() << endl;
+    root->DisposeChildren();
+    cout << "Root: " << root->toString() << endl;
+
+    
+
+    // system("pause");
     return 0;
 }
