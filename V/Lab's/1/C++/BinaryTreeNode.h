@@ -26,36 +26,30 @@ public:
 
 	void DisposeChildren()
 	{
-		stack<BinaryTreeNode *> s;
-		if (Left != nullptr)
-		{
-			s.push(Left);
-		}
-		if (Right != nullptr)
-		{
-			s.push(Right);
-		}
+		auto nd{[](stack<BinaryTreeNode *> &s, BinaryTreeNode *&node)
+				{
+					if (node->Left != nullptr)
+					{
+						s.push(node->Left);
+					}
+					if (node->Right != nullptr)
+					{
+						s.push(node->Right);
+					}
 
-		this->Left = nullptr;
-		this->Right = nullptr;
+					node->Left = nullptr;
+					node->Right = nullptr;
+				}};
+
+		stack<BinaryTreeNode *> s;
+		auto root = this;
+		nd(s, root);
 
 		while (!s.empty())
 		{
 			BinaryTreeNode *node = s.top();
 			s.pop();
-
-			if (node->Left != nullptr)
-			{
-				s.push(node->Left);
-			}
-			if (node->Right != nullptr)
-			{
-				s.push(node->Right);
-			}
-
-			node->Left = nullptr;
-			node->Right = nullptr;
-
+			nd(s, node);
 			delete node;
 		}
 	}
