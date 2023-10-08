@@ -1,48 +1,61 @@
-public class BinaryTreeNode<T> : IDisposable
+namespace Console_Project.Tree
 {
-    public T Value;
-
-    public BinaryTreeNode<T>? Left;
-    public BinaryTreeNode<T>? Right;
-
-    public BinaryTreeNode(T value, BinaryTreeNode<T>? left = null, BinaryTreeNode<T>? right = null)
+    public class BinaryTreeNode<T> : IDisposable
     {
-        Value = value;
-        Left = left;
-        Right = right;
-    }
+        public T Value;
 
-    ~BinaryTreeNode()
-    {
-        Dispose();
-    }
+        public BinaryTreeNode<T>? Left;
+        public BinaryTreeNode<T>? Right;
 
-    public void Dispose()
-    {
-        Stack<BinaryTreeNode<T>> nodes = new();
-        if (Left is not null)
+        public BinaryTreeNode(
+            T value,
+            BinaryTreeNode<T>? left = null,
+            BinaryTreeNode<T>? right = null
+        )
         {
-            nodes.Push(Left);
-        }
-        if (Right is not null)
-        {
-            nodes.Push(Right);
+            Value = value;
+            Left = left;
+            Right = right;
         }
 
-        while (nodes.Count > 0)
+        ~BinaryTreeNode()
         {
-            var node = nodes.Pop();
+            Dispose();
+        }
 
-            if (node.Left is not null)
+        public void Dispose()
+        {
+            Stack<BinaryTreeNode<T>> nodes = new();
+            if (Left is not null)
             {
-                nodes.Push(node.Left);
+                nodes.Push(Left);
             }
-            if (node.Right is not null)
+            if (Right is not null)
             {
-                nodes.Push(node.Right);
+                nodes.Push(Right);
             }
 
-            GC.SuppressFinalize(node);
+            while (nodes.Count > 0)
+            {
+                var node = nodes.Pop();
+
+                if (node.Left is not null)
+                {
+                    nodes.Push(node.Left);
+                }
+                if (node.Right is not null)
+                {
+                    nodes.Push(node.Right);
+                }
+
+                node = null;
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"Value: {Value}; Left: {(Left is null ? "NULL" : Left.Value!.ToString())}; "
+                + $"Right: {(Right is null ? "NULL" : Right.Value!.ToString())}";
         }
     }
 }
