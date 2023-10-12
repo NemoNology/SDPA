@@ -9,52 +9,51 @@ class BinarySearchTreeNode
 public:
 	T Value;
 
-	BinarySearchTreeNode *Left;
-	BinarySearchTreeNode *Right;
+	BinarySearchTreeNode<T> *Left;
+	BinarySearchTreeNode<T> *Right;
 
-	BinarySearchTreeNode(T value, BinarySearchTreeNode *left = nullptr, BinarySearchTreeNode *right = nullptr)
+	BinarySearchTreeNode<T>(T value, BinarySearchTreeNode<T> *left = nullptr, BinarySearchTreeNode<T> *right = nullptr)
 	{
 		Value = value;
 		Left = left;
 		Right = right;
 	}
 
-	~BinarySearchTreeNode()
+	~BinarySearchTreeNode<T>()
 	{
 		DisposeChildren();
 	}
 
 	void DisposeChildren()
 	{
-		auto nd{[](stack<BinarySearchTreeNode *> &s, BinaryTreeNode *&node)
+		auto nd{[](stack<BinarySearchTreeNode<T> *> &s, BinarySearchTreeNode<T> *&node)
 				{
 					if (node->Left != nullptr)
-					{
-						s.push(node->Left);
-					}
-					if (node->Right != nullptr)
-					{
-						s.push(node->Right);
-					}
-
-					node->Left = nullptr;
-					node->Right = nullptr;
+                    {
+                        s.push(node->Left);
+                        node->Left = nullptr;
+                    }
+                    if (node->Right != nullptr)
+                    {
+                        s.push(node->Right);
+                        node->Right = nullptr;
+                    }
 				}};
 
-		stack<BinarySearchTreeNode *> s;
+		stack<BinarySearchTreeNode<T> *> s;
 		auto root = this;
 		nd(s, root);
 
 		while (!s.empty())
 		{
-			BinarySearchTreeNode *node = s.top();
+			BinarySearchTreeNode<T> *node = s.top();
 			s.pop();
 			nd(s, node);
 			delete node;
 		}
 	}
 
-	string toString()
+	string ToString()
 	{
 		string l, r;
 
