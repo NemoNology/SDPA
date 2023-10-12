@@ -4,29 +4,29 @@
 using namespace std;
 
 template <typename T>
-class BinaryTreeNode
+class BinarySearchTreeNode
 {
 public:
 	T Value;
 
-	BinaryTreeNode *Left;
-	BinaryTreeNode *Right;
+	BinarySearchTreeNode *Left;
+	BinarySearchTreeNode *Right;
 
-	BinaryTreeNode(T value, BinaryTreeNode *left = nullptr, BinaryTreeNode *right = nullptr)
+	BinarySearchTreeNode(T value, BinarySearchTreeNode *left = nullptr, BinarySearchTreeNode *right = nullptr)
 	{
 		Value = value;
 		Left = left;
 		Right = right;
 	}
 
-	~BinaryTreeNode()
+	~BinarySearchTreeNode()
 	{
 		DisposeChildren();
 	}
 
 	void DisposeChildren()
 	{
-		auto nd{[](stack<BinaryTreeNode *> &s, BinaryTreeNode *&node)
+		auto nd{[](stack<BinarySearchTreeNode *> &s, BinaryTreeNode *&node)
 				{
 					if (node->Left != nullptr)
 					{
@@ -41,13 +41,13 @@ public:
 					node->Right = nullptr;
 				}};
 
-		stack<BinaryTreeNode *> s;
+		stack<BinarySearchTreeNode *> s;
 		auto root = this;
 		nd(s, root);
 
 		while (!s.empty())
 		{
-			BinaryTreeNode *node = s.top();
+			BinarySearchTreeNode *node = s.top();
 			s.pop();
 			nd(s, node);
 			delete node;
