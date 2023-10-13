@@ -15,6 +15,43 @@ public:
         Root = root;
     }
 
+    void Add(T Value)
+    {
+        auto addingNode = new BinarySearchTreeNode<T>(Value);
+
+        if (Root == nullptr)
+        {
+            Root = addingNode;
+        }
+        else
+        {
+            BinarySearchTreeNode<T> *nodeBuffer = Root;
+            T valueBuffer;
+
+            while (true)
+            {
+                valueBuffer = nodeBuffer->Value;
+                bool isLess = Value < valueBuffer;
+                if (nodeBuffer->Left != nullptr && isLess)
+                {
+                    nodeBuffer = nodeBuffer->Left;
+                }
+                else if (nodeBuffer->Right != nullptr && !isLess)
+                {
+                    nodeBuffer = nodeBuffer->Right;
+                }
+                else
+                {
+                    if (isLess)
+                        nodeBuffer->Left = addingNode;
+                    else
+                        nodeBuffer->Right = addingNode;
+                    break;
+                }
+            }
+        }
+    }
+
     ~BinarySearchTree<T>()
     {
         Clear();
