@@ -15,9 +15,9 @@ public:
         Root = root;
     }
 
-    void Add(T Value)
+    void Add(T value)
     {
-        auto addingNode = new BinarySearchTreeNode<T>(Value);
+        auto addingNode = new BinarySearchTreeNode<T>(value);
 
         if (Root == nullptr)
         {
@@ -31,7 +31,7 @@ public:
             while (true)
             {
                 valueBuffer = nodeBuffer->Value;
-                bool isLess = Value < valueBuffer;
+                bool isLess = value < valueBuffer;
                 if (nodeBuffer->Left != nullptr && isLess)
                 {
                     nodeBuffer = nodeBuffer->Left;
@@ -50,6 +50,24 @@ public:
                 }
             }
         }
+    }
+
+    bool Contains(T value)
+    {
+        BinarySearchTreeNode<T> *nodeBuffer = Root;
+
+        while (nodeBuffer != nullptr)
+        {
+            T valueBuffer = nodeBuffer->Value;
+            if (value == valueBuffer)
+                return true;
+            else if (value < valueBuffer)
+                nodeBuffer = nodeBuffer->Left;
+            else
+                nodeBuffer = nodeBuffer->Right;
+        }
+
+        return false;
     }
 
     ~BinarySearchTree<T>()
