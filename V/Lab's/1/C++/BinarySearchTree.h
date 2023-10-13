@@ -10,19 +10,31 @@ class BinarySearchTree
 public:
     BinarySearchTreeNode<T> *Root;
 
-    BinarySearchTree(BinarySearchTreeNode<T> *root)
+    BinarySearchTree(BinarySearchTreeNode<T> *root = nullptr)
     {
         Root = root;
     }
 
     ~BinarySearchTree<T>()
     {
-        DisposeChildren();
-        delete Root;
+        Clear();
     }
 
-    void DisposeChildren()
+    void Clear()
     {
+        if (Root != nullptr)
+        {
+            DisposeRootChildren();
+            delete Root;
+            Root = nullptr;
+        }
+    }
+
+    void DisposeRootChildren()
+    {
+        if (Root == nullptr)
+            return;
+
         auto nd{[](stack<BinarySearchTreeNode<T> *> &s, BinarySearchTreeNode<T> *&node)
                 {
                     if (node->Left != nullptr)
@@ -51,6 +63,6 @@ public:
 
     string ToString()
     {
-        return "Root: [" + Root->ToString() + "]";
+        return "Root: [" + (Root == nullptr ? "NULL" : Root->ToString()) + "]";
     }
 };
