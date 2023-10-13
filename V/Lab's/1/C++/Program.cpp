@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "BinaryTreeNode.h"
+#include "BinarySearchTree.h"
 
 using namespace std;
 
@@ -7,13 +7,15 @@ using type = int;
 
 int main()
 {
-    auto root = new BinaryTreeNode<type>(4, new BinaryTreeNode<type>(1), new BinaryTreeNode<type>(6));
+    auto root = new BinarySearchTreeNode<type>(4);
+    auto tree = BinarySearchTree<type>(root);
 
-    cout << "Root: " << root->toString() << endl;
-    root->DisposeChildren();
-    cout << "Root: " << root->toString() << endl;
+    tree.Add(1);
+    tree.Add(5);
+    tree.Add(6);
 
-    
+    for (int i = 0; i < 10; i++)
+        cout << "Is there " << i << " in tree? - " << boolalpha << tree.Contains(i) << endl;
 
     // system("pause");
     return 0;
