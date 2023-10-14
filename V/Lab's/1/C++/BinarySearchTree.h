@@ -70,6 +70,36 @@ public:
         return false;
     }
 
+    int Count()
+    {
+        if (Root == nullptr)
+            return 0;
+
+        stack<BinarySearchTreeNode<T> *> s;
+        int count = 1;
+        s.push(Root);
+
+        while (!s.empty())
+        {
+            BinarySearchTreeNode<T> *nodeBuffer = s.top();
+            s.pop();
+            auto left = nodeBuffer->Left;
+            auto right = nodeBuffer->Right;
+            if (left != nullptr)
+            {
+                s.push(left);
+                count++;
+            }
+            if (right != nullptr)
+            {
+                s.push(right);
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     ~BinarySearchTree<T>()
     {
         Clear();
