@@ -20,9 +20,7 @@ public:
         auto addingNode = new BinarySearchTreeNode<T>(value);
 
         if (Root == nullptr)
-        {
             Root = addingNode;
-        }
         else
         {
             BinarySearchTreeNode<T> *nodeBuffer = Root;
@@ -31,21 +29,18 @@ public:
             while (true)
             {
                 valueBuffer = nodeBuffer->Value;
-                bool isLess = value < valueBuffer;
-                if (nodeBuffer->Left != nullptr && isLess)
-                {
-                    nodeBuffer = nodeBuffer->Left;
-                }
-                else if (nodeBuffer->Right != nullptr && !isLess)
-                {
+                bool isMore = valueBuffer > value;
+                if (nodeBuffer->Right != nullptr && isMore)
                     nodeBuffer = nodeBuffer->Right;
-                }
+                else if (nodeBuffer->Left != nullptr && !isMore)
+                    nodeBuffer = nodeBuffer->Left;
                 else
                 {
-                    if (isLess)
-                        nodeBuffer->Left = addingNode;
-                    else
+                    if (isMore)
                         nodeBuffer->Right = addingNode;
+                    else
+                        nodeBuffer->Left = addingNode;
+
                     break;
                 }
             }
@@ -61,10 +56,10 @@ public:
             T valueBuffer = nodeBuffer->Value;
             if (value == valueBuffer)
                 return true;
-            else if (value < valueBuffer)
-                nodeBuffer = nodeBuffer->Left;
-            else
+            else if (valueBuffer > value)
                 nodeBuffer = nodeBuffer->Right;
+            else
+                nodeBuffer = nodeBuffer->Left;
         }
 
         return false;
@@ -125,6 +120,8 @@ public:
 
         return count;
     }
+
+    // int
 
     ~BinarySearchTree<T>()
     {
