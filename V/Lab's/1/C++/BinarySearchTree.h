@@ -121,7 +121,36 @@ public:
         return count;
     }
 
-    // int
+    int GetDepth()
+    {
+        if (Root == nullptr)
+            return -1;
+
+        int depth = 0;
+
+        stack<pair<BinarySearchTreeNode<T> *, int>> s;
+        s.push(make_pair(Root, 0));
+        
+        while (!s.empty())
+        {
+            pair<BinarySearchTreeNode<T> *, int> bufferPair = s.top();
+            s.pop();
+
+            auto left = bufferPair.first->Left;
+            auto currentDepth = bufferPair.second;
+            auto right = bufferPair.first->Right;
+
+            if (left != nullptr)
+                s.push(make_pair(left, currentDepth + 1));
+            if (right != nullptr)
+                s.push(make_pair(right, currentDepth + 1));
+
+            if (currentDepth > depth)
+                depth = currentDepth;
+        }
+
+        return depth;
+    }
 
     ~BinarySearchTree<T>()
     {
