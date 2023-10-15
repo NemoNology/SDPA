@@ -65,6 +65,24 @@ public:
         return false;
     }
 
+    BinarySearchTreeNode<T> *Find(T value)
+    {
+        BinarySearchTreeNode<T> *nodeBuffer = Root;
+
+        while (nodeBuffer != nullptr)
+        {
+            T valueBuffer = nodeBuffer->Value;
+            if (value == valueBuffer)
+                return nodeBuffer;
+            else if (valueBuffer > value)
+                nodeBuffer = nodeBuffer->Right;
+            else
+                nodeBuffer = nodeBuffer->Left;
+        }
+
+        return nullptr;
+    }
+
     int Count()
     {
         if (Root == nullptr)
@@ -130,7 +148,7 @@ public:
 
         stack<pair<BinarySearchTreeNode<T> *, int>> s;
         s.push(make_pair(Root, 0));
-        
+
         while (!s.empty())
         {
             pair<BinarySearchTreeNode<T> *, int> bufferPair = s.top();
