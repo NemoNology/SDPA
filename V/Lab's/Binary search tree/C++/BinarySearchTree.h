@@ -24,25 +24,27 @@ public:
         else
         {
             BinarySearchTreeNode<T> *nodeBuffer = Root;
-            T valueBuffer;
 
             while (true)
             {
-                valueBuffer = nodeBuffer->Value;
-                bool isMore = valueBuffer > value;
-                if (nodeBuffer->Right != nullptr && isMore)
-                    nodeBuffer = nodeBuffer->Right;
-                else if (nodeBuffer->Left != nullptr && !isMore)
-                    nodeBuffer = nodeBuffer->Left;
-                else
-                {
-                    if (isMore)
-                        nodeBuffer->Right = addingNode;
-                    else
-                        nodeBuffer->Left = addingNode;
+                bool isMore = value > nodeBuffer->Value;
+                bool isNotLeft = nodeBuffer->Left == nullptr;
+                bool isNotRight = nodeBuffer->Right == nullptr;
 
+                if (isMore && isNotRight)
+                {
+                    nodeBuffer->Right = addingNode;
                     break;
                 }
+                else if (!isMore && isNotLeft)
+                {
+                    nodeBuffer->Left = addingNode;
+                    break;
+                }
+                else if (isMore && !isNotRight)
+                    nodeBuffer = nodeBuffer->Right;
+                else
+                    nodeBuffer = nodeBuffer->Left;
             }
         }
     }
@@ -56,7 +58,7 @@ public:
             T valueBuffer = nodeBuffer->Value;
             if (value == valueBuffer)
                 return true;
-            else if (valueBuffer > value)
+            else if (value > valueBuffer)
                 nodeBuffer = nodeBuffer->Right;
             else
                 nodeBuffer = nodeBuffer->Left;
@@ -81,6 +83,21 @@ public:
         }
 
         return nullptr;
+    }
+
+    void PrintHorizontal(int indent = 6)
+    {
+        if (Root == nullptr)
+        {
+            cout << "NULL";
+            return;
+        }
+
+        // TODO: This method
+    }
+
+    void Delete(T value)
+    {
     }
 
     int Count()
