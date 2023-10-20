@@ -19,6 +19,11 @@ public:
 		Right = right;
 	}
 
+	BinarySearchTreeNode<T> GetCopy()
+	{
+		return new BinarySearchTreeNode<T>(Value, Left, Right);
+	}
+
 	~BinarySearchTreeNode<T>()
 	{
 		DisposeChildren();
