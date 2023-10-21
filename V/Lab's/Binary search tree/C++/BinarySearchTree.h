@@ -1,6 +1,9 @@
 #include <iostream>
 #include "BinarySearchTreeNode.h"
 #include <stack>
+#include <queue>
+#include <math.h>
+#include <iomanip>
 
 using namespace std;
 
@@ -85,19 +88,114 @@ public:
         return nullptr;
     }
 
-    void PrintHorizontal(int indent = 6)
+    void PrintHorizontalRecursive(BinarySearchTreeNode<T> *node, int level = 0, int indent = 6)
+    {
+        if (node == nullptr)
+            return;
+
+        BinarySearchTreeNode<T> *r = node->Right;
+        BinarySearchTreeNode<T> *l = node->Left;
+
+        if (r != nullptr)
+            PrintHorizontalRecursive(r, level + 1, indent);
+
+        for (int i = 0; i < level; i++)
+            for (int j = 0; j < indent; j++)
+                cout << " ";
+        cout << node->Value << "\n";
+
+        if (l != nullptr)
+            PrintHorizontalRecursive(l, level + 1, indent);
+    }
+
+    void PrintVertical(int dataLength = 2, int canvasWidth = 64)
     {
         if (Root == nullptr)
         {
-            cout << "NULL";
+            for (int i = 0; i < canvasWidth / 2; i++)
+                cout << " ";
+            cout << "NULL\n";
             return;
         }
 
-        // TODO: This method
+        queue<pair<BinarySearchTreeNode<T> *, int>> q;
+        int levelBuffer = 1;
+        q.push(make_pair(Root, levelBuffer));
+
+        while (q.size() > 0)
+        {
+            pair<BinarySearchTreeNode<T> *, int> item = q.front();
+            q.pop();
+            BinarySearchTreeNode<T> *node = item.first;
+            int level = item.second;
+            int indent = (int)(canvasWidth / pow(2, level));
+
+            q.push(make_pair(node->Left, level + 1));
+            q.push(make_pair(node->Right, level + 1));
+            for (int i = 0; i < indent; i++)
+                cout << " ";
+            if (node != nullptr)
+                cout << setw(dataLength) << node->Value;
+            else
+                cout << setw(dataLength) << " ";
+
+            if (level != levelBuffer)
+            {
+                cout << "\n";
+                levelBuffer++;
+            }
+        }
     }
 
     void Delete(T value)
     {
+        BinarySearchTreeNode<T> *node = Root;
+
+        while (node != nullptr)
+        {
+            BinarySearchTreeNode<T> *l = node->Left;
+            BinarySearchTreeNode<T> *r = node->Right;
+            bool isMore = value > node->Value;
+
+            if (node->Value == value)
+            {
+                bool isNotRight = r == nullptr;
+                bool isNotChildren = isNotRight && l == nullptr;
+                if (!isNotChildren)
+                {
+                    BinarySearchTreeNode<T> *rl = r->Left;
+                    if (rl == nullptr)
+                    {
+                        delete node;
+                        node = r;
+                    }
+                    else
+                    {
+                        while (rl->Left != nullptr)
+                            rl = rl->Left;
+                        node->Value = rl->Value;
+                        delete rl;
+                        rl = nullptr;
+                    }
+                }
+                else
+                {
+                    delete node;
+                    if (isNotChildren)
+                        node = nullptr;
+                    else if (!isNotRight)
+                        node = r;
+                    else
+                        node = l;
+                }
+
+                break;
+            }
+            else if (isMore)
+                node = r;
+            else
+                node = l;
+        }
     }
 
     int Count()
