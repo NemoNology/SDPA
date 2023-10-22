@@ -108,45 +108,63 @@ public:
             PrintHorizontalRecursive(l, level + 1, indent);
     }
 
-    void PrintVertical(int dataLength = 2, int canvasWidth = 64)
+    void PrintVertical(int dataWidth = 2, int canvasWidth = 64, string nullValue = "--")
     {
         if (Root == nullptr)
         {
             for (int i = 0; i < canvasWidth / 2; i++)
                 cout << " ";
-            cout << "NULL\n";
+            cout << nullValue << "\n";
             return;
         }
 
         queue<pair<BinarySearchTreeNode<T> *, int>> q;
-        int levelBuffer = 1;
-        q.push(make_pair(Root, levelBuffer));
+        int currentLevel = 0, currentIndent = canvasWidth / 2;
+        q.push(make_pair(Root, currentLevel));
 
         while (q.size() > 0)
         {
-            pair<BinarySearchTreeNode<T> *, int> item = q.front();
+            pair<BinarySearchTreeNode<T> *, int> nodeInfo = q.front();
+            BinarySearchTreeNode<T> *node = nodeInfo.first;
+            int level = nodeInfo.second;
+            bool isNewLevel = currentLevel < level;
             q.pop();
-            BinarySearchTreeNode<T> *node = item.first;
-            int level = item.second;
-            int indent = (int)(canvasWidth / pow(2, level));
 
-            q.push(make_pair(node->Left, level + 1));
-            q.push(make_pair(node->Right, level + 1));
-            for (int i = 0; i < indent; i++)
-                cout << " ";
-            if (node != nullptr)
-                cout << setw(dataLength) << node->Value;
-            else
-                cout << setw(dataLength) << " ";
-
-            if (level != levelBuffer)
+            if (isNewLevel)
             {
+                currentLevel = level;
                 cout << "\n";
-                levelBuffer++;
+            }
+
+            int newLeveledIndent = (isNewLevel ? currentIndent / 2 : currentIndent) - dataWidth;
+
+            for (int i = 0; i < newLeveledIndent; i++)
+                cout << " ";
+
+            if (q.size() > 0 && currentLevel < q.front().second)
+                currentIndent /= 2;
+
+            if (node == nullptr)
+                cout << setw(dataWidth) << nullValue;
+            else
+            {
+                auto l = node->Left;
+                auto r = node->Right;
+
+                if (l != nullptr || r != nullptr)
+                {
+                    int futureLevel = level + 1;
+                    q.push(make_pair(l, futureLevel));
+                    q.push(make_pair(r, futureLevel));
+                }
+
+                cout << setw(dataWidth) << node->Value;
             }
         }
-    }
 
+        cout << "\n";
+    }
+    
     void Delete(T value)
     {
         BinarySearchTreeNode<T> *node = Root;
@@ -334,5 +352,28 @@ public:
     string ToString()
     {
         return "Root: [" + (Root == nullptr ? "NULL" : Root->ToString()) + "]";
+    }
+
+    static BinarySearchTree<int> GetFilledIntegerTree()
+    {
+        int counter = 1;
+        queue<BinarySearchTreeNode<int> *> q;
+        BinarySearchTreeNode<int> *root = new BinarySearchTreeNode<int>(0);
+        q.push(root);
+        for (int i = 0; i < 7; i++)
+        {
+            BinarySearchTreeNode<int> *node = q.front();
+            q.pop();
+            BinarySearchTreeNode<int> *l = new BinarySearchTreeNode<int>(counter);
+            node->Left = l;
+            q.push(l);
+            counter++;
+            BinarySearchTreeNode<int> *r = new BinarySearchTreeNode<int>(counter);
+            node->Right = r;
+            q.push(r);
+            counter++;
+        }
+
+        return BinarySearchTree<int>(root);
     }
 };
