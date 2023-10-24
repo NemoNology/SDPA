@@ -16,25 +16,22 @@ int GetRandomInteger(int max = 20)
 int main()
 {
     srand((unsigned int)time(nullptr));
+    Tree tree = Tree();
 
-    auto root = new TreeNode(GetRandomInteger());
-    auto tree = Tree(root);
-
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 11; i++)
         tree.Add(GetRandomInteger());
 
-    cout << "Start:\n"; 
+    cout << "Start:\n";
     tree.PrintVertical();
-    // tree.PrintHorizontalRecursive(tree.Root);
+    int size = 3;
 
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     cout << "Deleting " << i << "(look down) :\n";
-    //     tree.Delete(i);
-    //     tree.PrintHorizontalRecursive(tree.Root);
-    // }
-
-    // cout << "Found node (69): " << TreeNode::ToString(tree.Find(69)) << endl;
+    for (int i = 0; i < size; i++)
+    {
+        int delitingNumber = GetRandomInteger();
+        cout << "Delete " << delitingNumber << "(\\|/) :\n";
+        tree.Delete(delitingNumber);
+        tree.PrintVertical();
+    }
 
     system("pause");
     return 0;
