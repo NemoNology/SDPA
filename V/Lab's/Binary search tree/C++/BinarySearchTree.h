@@ -164,7 +164,7 @@ public:
 
         cout << "\n";
     }
-    
+
     void Delete(T value)
     {
         BinarySearchTreeNode<T> *node = Root;
@@ -175,36 +175,41 @@ public:
             BinarySearchTreeNode<T> *r = node->Right;
             bool isMore = value > node->Value;
 
+            // TODO: tests
+
             if (node->Value == value)
             {
-                bool isNotRight = r == nullptr;
-                bool isNotChildren = isNotRight && l == nullptr;
-                if (!isNotChildren)
+                bool isRight = r != nullptr;
+                bool isLeft = l != nullptr;
+                bool areBothChildren = isRight && isLeft;
+                if (areBothChildren)
                 {
                     BinarySearchTreeNode<T> *rl = r->Left;
                     if (rl == nullptr)
                     {
                         delete node;
-                        node = r;
+                        node = new BinarySearchTreeNode<T>(rl->Value, rl->Left, rl->Right);
+                        rl = nullptr;
                     }
                     else
                     {
                         while (rl->Left != nullptr)
                             rl = rl->Left;
                         node->Value = rl->Value;
-                        delete rl;
                         rl = nullptr;
                     }
                 }
                 else
                 {
                     delete node;
-                    if (isNotChildren)
+                    if (!isRight && !isLeft)
                         node = nullptr;
-                    else if (!isNotRight)
-                        node = r;
+                    else if (isRight)
+                        node = new BinarySearchTreeNode<T>(r->Value, r->Left, r->Right);
+                        r = nullptr;
                     else
-                        node = l;
+                        node = new BinarySearchTreeNode<T>(l->Value, l->Left, l->Right);
+                        l = nullptr;
                 }
 
                 break;
