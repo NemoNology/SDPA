@@ -19,16 +19,6 @@ public:
 		Right = right;
 	}
 
-	BinarySearchTreeNode<T> GetCopy()
-	{
-		return new BinarySearchTreeNode<T>(Value, Left, Right);
-	}
-
-	~BinarySearchTreeNode<T>()
-	{
-		DisposeChildren();
-	}
-
 	void DisposeChildren()
 	{
 		auto nd{[](stack<BinarySearchTreeNode<T> *> &s, BinarySearchTreeNode<T> *&node)
