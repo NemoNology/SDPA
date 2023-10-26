@@ -110,14 +110,6 @@ public:
 
     void PrintVertical(int dataWidth = 2, int canvasWidth = 64, string nullValue = "--")
     {
-        if (Root == nullptr)
-        {
-            for (int i = 0; i < canvasWidth / 2; i++)
-                cout << " ";
-            cout << nullValue << "\n";
-            return;
-        }
-
         queue<pair<BinarySearchTreeNode<T> *, int>> q;
         int currentLevel = 0, currentIndent = canvasWidth / 2;
         q.push(make_pair(Root, currentLevel));
@@ -167,50 +159,41 @@ public:
 
     void Delete(T value)
     {
-        BinarySearchTreeNode<T> *node = Root;
+        BinarySearchTreeNode<T> *&node = Root;
 
         while (node != nullptr)
         {
-            BinarySearchTreeNode<T> *l = node->Left;
-            BinarySearchTreeNode<T> *r = node->Right;
+            BinarySearchTreeNode<T> *&l = node->Left;
+            BinarySearchTreeNode<T> *&r = node->Right;
             bool isMore = value > node->Value;
-
-            // TODO: tests
 
             if (node->Value == value)
             {
+                delete node;
+
                 bool isRight = r != nullptr;
                 bool isLeft = l != nullptr;
                 bool areBothChildren = isRight && isLeft;
                 if (areBothChildren)
                 {
-                    BinarySearchTreeNode<T> *rl = r->Left;
+                    BinarySearchTreeNode<T> *&rl = r->Left;
                     if (rl == nullptr)
-                    {
-                        delete node;
-                        node = new BinarySearchTreeNode<T>(rl->Value, rl->Left, rl->Right);
-                        rl = nullptr;
-                    }
+                        node = r;
                     else
                     {
                         while (rl->Left != nullptr)
                             rl = rl->Left;
                         node->Value = rl->Value;
-                        rl = nullptr;
+                        r->Left = rl->Right;
+                        delete rl;
                     }
                 }
+                else if (!isRight && !isLeft)
+                    node = nullptr;
+                else if (isRight)
+                    node = r;
                 else
-                {
-                    delete node;
-                    if (!isRight && !isLeft)
-                        node = nullptr;
-                    else if (isRight)
-                        node = new BinarySearchTreeNode<T>(r->Value, r->Left, r->Right);
-                        r = nullptr;
-                    else
-                        node = new BinarySearchTreeNode<T>(l->Value, l->Left, l->Right);
-                        l = nullptr;
-                }
+                    node = l;
 
                 break;
             }
@@ -317,40 +300,9 @@ public:
     {
         if (Root != nullptr)
         {
-            DisposeRootChildren();
+            Root->DisposeChildren();
             delete Root;
             Root = nullptr;
-        }
-    }
-
-    void DisposeRootChildren()
-    {
-        if (Root == nullptr)
-            return;
-
-        auto nd{[](stack<BinarySearchTreeNode<T> *> &s, BinarySearchTreeNode<T> *&node)
-                {
-                    if (node->Left != nullptr)
-                    {
-                        s.push(node->Left);
-                        node->Left = nullptr;
-                    }
-                    if (node->Right != nullptr)
-                    {
-                        s.push(node->Right);
-                        node->Right = nullptr;
-                    }
-                }};
-
-        stack<BinarySearchTreeNode<T> *> s;
-        nd(s, Root);
-
-        while (!s.empty())
-        {
-            BinarySearchTreeNode<T> *node = s.top();
-            s.pop();
-            nd(s, node);
-            delete node;
         }
     }
 
