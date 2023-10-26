@@ -12,25 +12,14 @@ int main()
 {
     Tree tree = Tree();
 
-    tree.Add(50);
-    tree.Add(25);
-    tree.Add(75);
-    tree.Add(20);
-    tree.Add(30);
-    // cout << TreeNode::ToString(tree.Root) << " (Before)\n";
+    int size = 15;
+    int *numbers = new int[size]{50, 25, 75, 20, 30, 70, 80, 15, 23, 28, 40, 65, 72, 76, 85};
+
+    for (int i = 0; i < size; i++)
+        tree.Add(numbers[i]);
+
+    cout << "Start:\n";
     tree.PrintVertical();
-    // tree.Delete(0);
-    // cout << TreeNode::ToString(tree.Root) << " (After)\n";
-    // tree.PrintVertical();
-
-    // int size = 15;
-    // int *numbers = new int[size]{50, 25, 75, 20, 30, 70, 80, 15, 23, 28, 40, 65, 72, 76, 85};
-
-    // for (int i = 0; i < size; i++)
-    //     tree.Add(numbers[i]);
-
-    // cout << "Start:\n";
-    // tree.PrintVertical();
 
     // delete numbers;
     // size = 3;
