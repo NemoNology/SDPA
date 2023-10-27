@@ -110,31 +110,31 @@ public:
 
     void PrintVertical(int dataWidth = 2, int canvasWidth = 64, string nullValue = "--")
     {
-        queue<pair<BinarySearchTreeNode<T> *, int>> q;
-        int currentLevel = 0, currentIndent = canvasWidth / 2;
-        q.push(make_pair(Root, currentLevel));
+        queue<pair<BinarySearchTreeNode<T> *, pair<int, int>>> q;
+        int currentLevel = 0, currentPosition = 0, currentIndent = canvasWidth / 4;
+        q.push(make_pair(Root, make_pair(currentLevel, canvasWidth / 2)));
 
         while (q.size() > 0)
         {
-            pair<BinarySearchTreeNode<T> *, int> nodeInfo = q.front();
+            pair<BinarySearchTreeNode<T> *, pair<int, int>> nodeInfo = q.front();
             BinarySearchTreeNode<T> *node = nodeInfo.first;
-            int level = nodeInfo.second;
-            bool isNewLevel = currentLevel < level;
+            int level = nodeInfo.second.first;
+            int position = nodeInfo.second.second;
             q.pop();
 
-            if (isNewLevel)
+            if (currentLevel < level)
             {
                 currentLevel = level;
+                currentPosition = 0;
+                currentIndent /= 2;
                 cout << "\n";
             }
 
-            int newLeveledIndent = (isNewLevel ? currentIndent / 2 : currentIndent) - dataWidth;
-
-            for (int i = 0; i < newLeveledIndent; i++)
+            while (currentPosition < position)
+            {
                 cout << " ";
-
-            if (q.size() > 0 && currentLevel < q.front().second)
-                currentIndent /= 2;
+                currentPosition++;
+            }
 
             if (node == nullptr)
                 cout << setw(dataWidth) << nullValue;
@@ -146,8 +146,8 @@ public:
                 if (l != nullptr || r != nullptr)
                 {
                     int futureLevel = level + 1;
-                    q.push(make_pair(l, futureLevel));
-                    q.push(make_pair(r, futureLevel));
+                    q.push(make_pair(l, make_pair(futureLevel, position - currentIndent)));
+                    q.push(make_pair(r, make_pair(futureLevel, position + currentIndent - dataWidth)));
                 }
 
                 cout << setw(dataWidth) << node->Value;
@@ -159,48 +159,49 @@ public:
 
     void Delete(T value)
     {
-        BinarySearchTreeNode<T> *&node = Root;
+        BinarySearchTreeNode<T> **nodeBuffer = &Root;
 
-        while (node != nullptr)
+        while (nodeBuffer != nullptr)
         {
-            BinarySearchTreeNode<T> *&l = node->Left;
-            BinarySearchTreeNode<T> *&r = node->Right;
-            bool isMore = value > node->Value;
+            BinarySearchTreeNode<T> **leftBuffer = &((*nodeBuffer)->Left);
+            BinarySearchTreeNode<T> **rightBuffer = &((*nodeBuffer)->Right);
+            bool isMore = value > (*nodeBuffer)->Value;
 
-            if (node->Value == value)
+            if ((*nodeBuffer)->Value == value)
             {
-                delete node;
-
-                bool isRight = r != nullptr;
-                bool isLeft = l != nullptr;
+                bool isRight = *rightBuffer != nullptr;
+                bool isLeft = *leftBuffer != nullptr;
                 bool areBothChildren = isRight && isLeft;
                 if (areBothChildren)
                 {
-                    BinarySearchTreeNode<T> *&rl = r->Left;
-                    if (rl == nullptr)
-                        node = r;
+                    BinarySearchTreeNode<T> **rl = &((*rightBuffer)->Left);
+                    if (*rl == nullptr)
+                    {
+                        (*nodeBuffer)->Value = (*rightBuffer)->Value;
+                        BinarySearchTreeNode<T>::SetNew(*rightBuffer, nullptr);
+                    }
                     else
                     {
-                        while (rl->Left != nullptr)
-                            rl = rl->Left;
-                        node->Value = rl->Value;
-                        r->Left = rl->Right;
-                        delete rl;
+                        while ((*rl)->Left != nullptr)
+                            rl = &((*rl)->Left);
+                        (*nodeBuffer)->Value = (*rl)->Value;
+                        BinarySearchTreeNode<T>::SetNew(*rl, (*rl)->Right);
+                        BinarySearchTreeNode<T>::SetNew(*rl, nullptr);
                     }
                 }
                 else if (!isRight && !isLeft)
-                    node = nullptr;
+                    BinarySearchTreeNode<T>::SetNew(*nodeBuffer, nullptr);
                 else if (isRight)
-                    node = r;
+                    BinarySearchTreeNode<T>::SetNew(*nodeBuffer, *rightBuffer);
                 else
-                    node = l;
+                    BinarySearchTreeNode<T>::SetNew(*nodeBuffer, *leftBuffer);
 
                 break;
             }
             else if (isMore)
-                node = r;
+                nodeBuffer = rightBuffer;
             else
-                node = l;
+                nodeBuffer = leftBuffer;
         }
     }
 
