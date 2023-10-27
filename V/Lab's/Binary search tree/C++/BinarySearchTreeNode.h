@@ -58,6 +58,13 @@ public:
 		return "Value: " + to_string(Value) + "; Left: " + l + "; Right: " + r;
 	}
 
+	static void SetNew(BinarySearchTreeNode<T> *&oldNode, BinarySearchTreeNode<T> *newNode)
+	{
+		BinarySearchTreeNode<T> *nodeBufferForDelete = oldNode;
+		oldNode = newNode;
+		delete nodeBufferForDelete;
+	}
+
 	static string ToString(BinarySearchTreeNode<T> *node)
 	{
 		if (node == nullptr)
