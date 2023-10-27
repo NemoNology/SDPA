@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include "BinarySearchTree.h"
-#include <time.h>
 
 using namespace std;
 
@@ -20,22 +19,31 @@ int main()
 
     cout << "Start:\n";
     tree.PrintVertical();
+    delete numbers;
+    size = 8;
+    numbers = new int[size]{76, 40, 15, 30, 20, 25, 28, 50};
 
-    // delete numbers;
-    // size = 3;
-    // numbers = new int[size]{65, 40, 15};
+    cout << "\nContains test before deleting:\n\n";
 
-    // tree.Delete(65);
-    // cout << "Delete 65:\n\n";
-    // tree.PrintVertical();
+    for (int i = 0; i < 100; i++)
+        if (tree.Contains(i))
+            cout << "Tree contains " << i << "\n";
 
-    // for (int i = 0; i < size; i++)
-    // {
-    //     int delitingNumber = numbers[i];
-    //     cout << "Delete " << delitingNumber << "(\\|/) :\n";
-    //     tree.Delete(delitingNumber);
-    //     tree.PrintVertical();
-    // }
+    cout << "\nDeleting test:\n\n";
+
+    for (int i = 0; i < size; i++)
+    {
+        int delitingNumber = numbers[i];
+        cout << "Delete " << delitingNumber << "(\\|/) :\n";
+        tree.Delete(delitingNumber);
+        tree.PrintVertical();
+    }
+
+    cout << "\nContains test after deleting:\n\n";
+
+    for (int i = 0; i < 100; i++)
+        if (tree.Contains(i))
+            cout << "Tree contains " << i << "\n";
 
     system("pause");
     return 0;
