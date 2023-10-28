@@ -1,13 +1,12 @@
 BST
+SeqList iterator
 (InOrder iterator) Tree iterator (Tree sort)
 Heap
 AVL-Tree
 HashTable
-SeqList iterator
 
 Dict
 Piramids (Tree by array)
-SeqList iterator
 Graph
 
 Bin file
