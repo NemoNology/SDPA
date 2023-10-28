@@ -43,8 +43,7 @@ public:
             nodeBuffer = nodeBuffer->Next;
 
         nodeBuffer->Next = appendedNode;
-        appendedNode->Previous = nodeBuffer;
-        ++_size;
+        _size++;
     }
 
     // Remove last element from seqList and return it
@@ -52,17 +51,25 @@ public:
     {
         if (Head == nullptr)
             return nullptr;
+        else if (Head->Next == nullptr)
+        {
+            SeqListNode<T> *nodeBuffer = Head;
+            Head = nullptr;
+            return nodeBuffer;
+        }
 
         SeqListNode<T> *nodeBuffer = Head;
+        SeqListNode<T> *prevBuffer;
 
         while (nodeBuffer->Next != nullptr)
+        {
+            prevBuffer = nodeBuffer;
             nodeBuffer = nodeBuffer->Next;
+        }
 
-        if (_size > 1)
-            nodeBuffer->Previous->Next = nullptr;
-        nodeBuffer->Previous = nullptr;
+        prevBuffer->Next = nullptr;
 
-        --_size;
+        _size--;
         return nodeBuffer;
     }
 
@@ -77,6 +84,23 @@ public:
         }
 
         Head = nullptr;
+    }
+
+    int Count()
+    {
+        if (Head == nullptr)
+            return 0;
+
+        SeqListNode<T> *nodeBuffer = Head;
+        int counter = 0;
+
+        while (nodeBuffer->Next != nullptr)
+        {
+            counter++;
+            nodeBuffer = nodeBuffer->Next;
+        }
+
+        return counter + 1;
     }
 
     T GetElementAt(int index)
