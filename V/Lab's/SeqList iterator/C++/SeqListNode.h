@@ -7,12 +7,10 @@ public:
     T Value;
 
     SeqListNode<T> *Next;
-    SeqListNode<T> *Previous;
 
-    SeqListNode(T value, SeqListNode<T> *next = nullptr, SeqListNode<T> *previous = nullptr)
+    SeqListNode(T value, SeqListNode<T> *next = nullptr)
     {
         Value = value;
         Next = next;
-        Previous = previous;
     }
 };
