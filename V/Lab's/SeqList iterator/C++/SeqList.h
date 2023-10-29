@@ -17,7 +17,7 @@ public:
         Head = head;
     }
 
-    int size()
+    int GetSize()
     {
         return _size;
     }
@@ -30,6 +30,7 @@ public:
     void Append(T value)
     {
         SeqListNode<T> *appendedNode = new SeqListNode<T>(value);
+        _size++;
 
         if (Head == nullptr)
         {
@@ -43,23 +44,38 @@ public:
             nodeBuffer = nodeBuffer->Next;
 
         nodeBuffer->Next = appendedNode;
-        _size++;
     }
 
     // Remove last element from seqList and return it
-    SeqListNode<T> *Pop()
+    T Pop()
     {
         if (Head == nullptr)
-            return nullptr;
-        else if (Head->Next == nullptr)
-        {
-            SeqListNode<T> *nodeBuffer = Head;
-            Head = nullptr;
-            return nodeBuffer;
-        }
+            throw "Trying to pop from empty seqList";
 
         SeqListNode<T> *nodeBuffer = Head;
-        SeqListNode<T> *prevBuffer;
+        SeqListNode<T> *prevBuffer = Head;
+
+        while (nodeBuffer->Next != nullptr)
+        {
+            prevBuffer = nodeBuffer;
+            nodeBuffer = nodeBuffer->Next;
+        }
+
+        prevBuffer->Next = nullptr;
+        T value = nodeBuffer->Value;
+        delete nodeBuffer;
+        _size--;
+        return value;
+    }
+
+    bool TryPop(T &outValue)
+    {
+        if (Head == nullptr)
+            return false;
+
+        // **nodebuffer = &Head;
+        SeqListNode<T> *nodeBuffer = Head;
+        SeqListNode<T> *prevBuffer = Head;
 
         while (nodeBuffer->Next != nullptr)
         {
@@ -70,7 +86,34 @@ public:
         prevBuffer->Next = nullptr;
 
         _size--;
-        return nodeBuffer;
+        outValue = nodeBuffer->Value;
+        return true;
+    }
+
+    T Dequeue()
+    {
+        if (Head == nullptr)
+            throw "Trying to dequeue from empty seqList";
+
+        T value = Head->Value;
+        SeqListNode<T> *nextBuffer = Head->Next;
+        delete Head;
+        Head = nextBuffer;
+        _size--;
+        return value;
+    }
+
+    bool TryDequeue(T &outValue)
+    {
+        if (Head == nullptr)
+            return false;
+
+        outValue = Head->Value;
+        SeqListNode<T> *nextBuffer = Head->Next;
+        delete Head;
+        Head = nextBuffer;
+        _size--;
+        return true;
     }
 
     void Clear()
