@@ -10,7 +10,13 @@ private:
     SeqListNode<T> *_current;
 
 public:
-    SeqListIterator(SeqList<T> list)
+    SeqListIterator(SeqList<T> *list)
+    {
+        _list = list;
+        Reset();
+    }
+
+    void SetSeqList(SeqList<T> *list)
     {
         _list = list;
         Reset();
@@ -60,6 +66,6 @@ public:
 
     bool IsIterationComplete()
     {
-        return _current == nullptr || _current->Next == nullptr;
+        return _current == nullptr;
     }
 };
