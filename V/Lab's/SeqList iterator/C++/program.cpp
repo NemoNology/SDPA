@@ -12,27 +12,22 @@ int main()
     for (int i = 1; i < size; i++)
         l.Append(i);
 
-    for (int i = 0; i < l.size(); i++)
-    {
-        int el = 0;
-        if (l.TryGetElementAt(i, el))
-            cout << el << ", ";
-    }
+    SeqListIterator<int> it = SeqListIterator<int>(&l);
 
-    cout << "\n"
-         << l.Count() << " - size after appends\n";
+    cout << "List output with list dequeue-s:\n";
 
-    for (int i = 0; i < size; i++)
-        l.Pop();
+    while (!l.isEmpty())
+        cout << l.Dequeue() << ", ";
 
-    cout << l.Count() << " - size after pop-s\n";
+    cout << "\nList output with list iterator:\n";
 
-    for (int i = 0; i < l.size(); i++)
-    {
-        int el = 0;
-        if (l.TryGetElementAt(i, el))
-            cout << el << ", ";
-    }
+    for (int i = 1; i < size; i++)
+        l.Append(i);
+
+    for (it.Reset(); !it.IsIterationComplete(); it.Next())
+        cout << it.GetCurrentElementValue() << ", ";
+
+    cout << "\n";
 
     system("pause");
     return 0;
