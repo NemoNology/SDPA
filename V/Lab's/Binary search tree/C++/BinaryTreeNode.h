@@ -4,15 +4,15 @@
 using namespace std;
 
 template <typename T>
-class BinarySearchTreeNode
+class BinaryTreeNode
 {
 public:
 	T Value;
 
-	BinarySearchTreeNode<T> *Left;
-	BinarySearchTreeNode<T> *Right;
+	BinaryTreeNode<T> *Left;
+	BinaryTreeNode<T> *Right;
 
-	BinarySearchTreeNode<T>(T value, BinarySearchTreeNode<T> *left = nullptr, BinarySearchTreeNode<T> *right = nullptr)
+	BinaryTreeNode<T>(T value, BinaryTreeNode<T> *left = nullptr, BinaryTreeNode<T> *right = nullptr)
 	{
 		Value = value;
 		Left = left;
@@ -21,7 +21,7 @@ public:
 
 	void DisposeChildren()
 	{
-		auto nd{[](stack<BinarySearchTreeNode<T> *> &s, BinarySearchTreeNode<T> *&node)
+		auto nd{[](stack<BinaryTreeNode<T> *> &s, BinaryTreeNode<T> *&node)
 				{
 					if (node->Left != nullptr)
 					{
@@ -35,13 +35,13 @@ public:
 					}
 				}};
 
-		stack<BinarySearchTreeNode<T> *> s;
+		stack<BinaryTreeNode<T> *> s;
 		auto root = this;
 		nd(s, root);
 
 		while (!s.empty())
 		{
-			BinarySearchTreeNode<T> *node = s.top();
+			BinaryTreeNode<T> *node = s.top();
 			s.pop();
 			nd(s, node);
 			delete node;
@@ -58,14 +58,14 @@ public:
 		return "Value: " + to_string(Value) + "; Left: " + l + "; Right: " + r;
 	}
 
-	static void SetNew(BinarySearchTreeNode<T> *&oldNode, BinarySearchTreeNode<T> *newNode)
+	static void SetNew(BinaryTreeNode<T> *&oldNode, BinaryTreeNode<T> *newNode)
 	{
-		BinarySearchTreeNode<T> *nodeBufferForDelete = oldNode;
+		BinaryTreeNode<T> *nodeBufferForDelete = oldNode;
 		oldNode = newNode;
 		delete nodeBufferForDelete;
 	}
 
-	static string ToString(BinarySearchTreeNode<T> *node)
+	static string ToString(BinaryTreeNode<T> *node)
 	{
 		if (node == nullptr)
 			return "NULL";

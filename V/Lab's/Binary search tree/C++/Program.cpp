@@ -4,7 +4,7 @@
 using namespace std;
 
 using type = int;
-using TreeNode = BinarySearchTreeNode<type>;
+using TreeNode = BinaryTreeNode<type>;
 using Tree = BinarySearchTree<type>;
 
 int main()

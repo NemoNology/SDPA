@@ -1,5 +1,5 @@
 #include <iostream>
-#include "BinarySearchTreeNode.h"
+#include "BinaryTreeNode.h"
 #include <stack>
 #include <queue>
 #include <math.h>
@@ -11,22 +11,22 @@ template <typename T>
 class BinarySearchTree
 {
 public:
-    BinarySearchTreeNode<T> *Root;
+    BinaryTreeNode<T> *Root;
 
-    BinarySearchTree(BinarySearchTreeNode<T> *root = nullptr)
+    BinarySearchTree(BinaryTreeNode<T> *root = nullptr)
     {
         Root = root;
     }
 
     void Add(T value)
     {
-        auto addingNode = new BinarySearchTreeNode<T>(value);
+        auto addingNode = new BinaryTreeNode<T>(value);
 
         if (Root == nullptr)
             Root = addingNode;
         else
         {
-            BinarySearchTreeNode<T> *nodeBuffer = Root;
+            BinaryTreeNode<T> *nodeBuffer = Root;
 
             while (true)
             {
@@ -54,7 +54,7 @@ public:
 
     bool Contains(T value)
     {
-        BinarySearchTreeNode<T> *nodeBuffer = Root;
+        BinaryTreeNode<T> *nodeBuffer = Root;
 
         while (nodeBuffer != nullptr)
         {
@@ -70,9 +70,9 @@ public:
         return false;
     }
 
-    BinarySearchTreeNode<T> *Find(T value)
+    BinaryTreeNode<T> *Find(T value)
     {
-        BinarySearchTreeNode<T> *nodeBuffer = Root;
+        BinaryTreeNode<T> *nodeBuffer = Root;
 
         while (nodeBuffer != nullptr)
         {
@@ -88,13 +88,13 @@ public:
         return nullptr;
     }
 
-    void PrintHorizontalRecursive(BinarySearchTreeNode<T> *node, int level = 0, int indent = 6)
+    void PrintHorizontalRecursive(BinaryTreeNode<T> *node, int level = 0, int indent = 6)
     {
         if (node == nullptr)
             return;
 
-        BinarySearchTreeNode<T> *r = node->Right;
-        BinarySearchTreeNode<T> *l = node->Left;
+        BinaryTreeNode<T> *r = node->Right;
+        BinaryTreeNode<T> *l = node->Left;
 
         if (r != nullptr)
             PrintHorizontalRecursive(r, level + 1, indent);
@@ -110,14 +110,14 @@ public:
 
     void PrintVertical(int dataWidth = 2, int canvasWidth = 64, string nullValue = "--")
     {
-        queue<pair<BinarySearchTreeNode<T> *, pair<int, int>>> q;
+        queue<pair<BinaryTreeNode<T> *, pair<int, int>>> q;
         int currentLevel = 0, currentPosition = 0, currentIndent = canvasWidth / 4;
         q.push(make_pair(Root, make_pair(currentLevel, canvasWidth / 2)));
 
         while (q.size() > 0)
         {
-            pair<BinarySearchTreeNode<T> *, pair<int, int>> nodeInfo = q.front();
-            BinarySearchTreeNode<T> *node = nodeInfo.first;
+            pair<BinaryTreeNode<T> *, pair<int, int>> nodeInfo = q.front();
+            BinaryTreeNode<T> *node = nodeInfo.first;
             int level = nodeInfo.second.first;
             int position = nodeInfo.second.second;
             q.pop();
@@ -159,12 +159,12 @@ public:
 
     void Delete(T value)
     {
-        BinarySearchTreeNode<T> **nodeBuffer = &Root;
+        BinaryTreeNode<T> **nodeBuffer = &Root;
 
         while (nodeBuffer != nullptr)
         {
-            BinarySearchTreeNode<T> **leftBuffer = &((*nodeBuffer)->Left);
-            BinarySearchTreeNode<T> **rightBuffer = &((*nodeBuffer)->Right);
+            BinaryTreeNode<T> **leftBuffer = &((*nodeBuffer)->Left);
+            BinaryTreeNode<T> **rightBuffer = &((*nodeBuffer)->Right);
             bool isMore = value > (*nodeBuffer)->Value;
 
             if ((*nodeBuffer)->Value == value)
@@ -174,27 +174,27 @@ public:
                 bool areBothChildren = isRight && isLeft;
                 if (areBothChildren)
                 {
-                    BinarySearchTreeNode<T> **rl = &((*rightBuffer)->Left);
+                    BinaryTreeNode<T> **rl = &((*rightBuffer)->Left);
                     if (*rl == nullptr)
                     {
                         (*nodeBuffer)->Value = (*rightBuffer)->Value;
-                        BinarySearchTreeNode<T>::SetNew(*rightBuffer, nullptr);
+                        BinaryTreeNode<T>::SetNew(*rightBuffer, nullptr);
                     }
                     else
                     {
                         while ((*rl)->Left != nullptr)
                             rl = &((*rl)->Left);
                         (*nodeBuffer)->Value = (*rl)->Value;
-                        BinarySearchTreeNode<T>::SetNew(*rl, (*rl)->Right);
-                        BinarySearchTreeNode<T>::SetNew(*rl, nullptr);
+                        BinaryTreeNode<T>::SetNew(*rl, (*rl)->Right);
+                        BinaryTreeNode<T>::SetNew(*rl, nullptr);
                     }
                 }
                 else if (!isRight && !isLeft)
-                    BinarySearchTreeNode<T>::SetNew(*nodeBuffer, nullptr);
+                    BinaryTreeNode<T>::SetNew(*nodeBuffer, nullptr);
                 else if (isRight)
-                    BinarySearchTreeNode<T>::SetNew(*nodeBuffer, *rightBuffer);
+                    BinaryTreeNode<T>::SetNew(*nodeBuffer, *rightBuffer);
                 else
-                    BinarySearchTreeNode<T>::SetNew(*nodeBuffer, *leftBuffer);
+                    BinaryTreeNode<T>::SetNew(*nodeBuffer, *leftBuffer);
 
                 break;
             }
@@ -210,13 +210,13 @@ public:
         if (Root == nullptr)
             return 0;
 
-        stack<BinarySearchTreeNode<T> *> s;
+        stack<BinaryTreeNode<T> *> s;
         int count = 1;
         s.push(Root);
 
         while (!s.empty())
         {
-            BinarySearchTreeNode<T> *nodeBuffer = s.top();
+            BinaryTreeNode<T> *nodeBuffer = s.top();
             s.pop();
             auto left = nodeBuffer->Left;
             auto right = nodeBuffer->Right;
@@ -240,13 +240,13 @@ public:
         if (Root == nullptr)
             return 0;
 
-        stack<BinarySearchTreeNode<T> *> s;
+        stack<BinaryTreeNode<T> *> s;
         int count = 0;
         s.push(Root);
 
         while (!s.empty())
         {
-            BinarySearchTreeNode<T> *nodeBuffer = s.top();
+            BinaryTreeNode<T> *nodeBuffer = s.top();
             s.pop();
             auto left = nodeBuffer->Left;
             auto right = nodeBuffer->Right;
@@ -268,12 +268,12 @@ public:
 
         int depth = 0;
 
-        stack<pair<BinarySearchTreeNode<T> *, int>> s;
+        stack<pair<BinaryTreeNode<T> *, int>> s;
         s.push(make_pair(Root, 0));
 
         while (!s.empty())
         {
-            pair<BinarySearchTreeNode<T> *, int> bufferPair = s.top();
+            pair<BinaryTreeNode<T> *, int> bufferPair = s.top();
             s.pop();
 
             auto left = bufferPair.first->Left;
@@ -315,18 +315,18 @@ public:
     static BinarySearchTree<int> GetFilledIntegerTree()
     {
         int counter = 1;
-        queue<BinarySearchTreeNode<int> *> q;
-        BinarySearchTreeNode<int> *root = new BinarySearchTreeNode<int>(0);
+        queue<BinaryTreeNode<int> *> q;
+        BinaryTreeNode<int> *root = new BinaryTreeNode<int>(0);
         q.push(root);
         for (int i = 0; i < 7; i++)
         {
-            BinarySearchTreeNode<int> *node = q.front();
+            BinaryTreeNode<int> *node = q.front();
             q.pop();
-            BinarySearchTreeNode<int> *l = new BinarySearchTreeNode<int>(counter);
+            BinaryTreeNode<int> *l = new BinaryTreeNode<int>(counter);
             node->Left = l;
             q.push(l);
             counter++;
-            BinarySearchTreeNode<int> *r = new BinarySearchTreeNode<int>(counter);
+            BinaryTreeNode<int> *r = new BinaryTreeNode<int>(counter);
             node->Right = r;
             q.push(r);
             counter++;
