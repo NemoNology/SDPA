@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "BinarySearchTree.h"
+#include "BInarySearchTreeInorderIterator.h"
 
 using namespace std;
 
@@ -19,6 +19,11 @@ int main()
 
     cout << "Start:\n";
     tree.PrintVertical();
+
+    BinarySearchTreeInorderIterator<type> iterator = BinarySearchTreeInorderIterator<type>(&tree);
+
+    for (iterator.Reset(); !iterator.IsIterationComplete(); iterator.Next())
+        cout << iterator.GetCurrentElementValue() << ' ';
 
     system("pause");
     return 0;
