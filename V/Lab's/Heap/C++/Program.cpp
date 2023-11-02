@@ -6,7 +6,7 @@ using namespace std;
 
 using type = int;
 
-int getRandomInt(int from, int to)
+int GetRandomInt(int from, int to)
 {
     return rand() % (to - from + 1) + from;
 }
@@ -20,7 +20,7 @@ int main()
     cout << "Inserting numbers: ";
     for (int i = 0; i < size; i++)
     {
-        int num = getRandomInt(0, 100);
+        int num = GetRandomInt(0, 100);
         cout << num << ", ";
         heap.Insert(num);
     }
