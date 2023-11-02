@@ -6,7 +6,6 @@ AVL-Tree
 HashTable
 
 Dict
-Piramids (Tree by array)
 Graph
 
 Bin file
