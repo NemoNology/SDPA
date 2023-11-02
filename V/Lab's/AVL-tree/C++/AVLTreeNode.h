@@ -13,7 +13,7 @@ public:
 	AVLTreeNode<T> *Left;
 	AVLTreeNode<T> *Right;
 
-	AVLTreeNode<T>(T value, int height, AVLTreeNode<T> *left = nullptr, AVLTreeNode<T> *right = nullptr)
+	AVLTreeNode<T>(T value, int height = 1, AVLTreeNode<T> *left = nullptr, AVLTreeNode<T> *right = nullptr)
 	{
 		Value = value;
 		Height = height;
@@ -55,7 +55,14 @@ public:
 		int heightLeft = Left == nullptr ? 0 : Left->Height;
 		int heightRight = Right == nullptr ? 0 : Right->Height;
 
-		return 	heightRight - heightLeft;
+		return heightRight - heightLeft;
+	}
+
+	void UpdateHeight()
+	{
+		int heightOfLeft = Left == nullptr ? 0 : Left->Height;
+		int heightOfRight = Right == nullptr ? 0 : Right->Height;
+		Height = (heightOfLeft > heightOfRight ? heightOfLeft : heightOfRight) + 1;
 	}
 
 	string ToString()
