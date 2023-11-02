@@ -4,15 +4,15 @@
 using namespace std;
 
 template <typename T>
-class BinarySearchTreeInorderIterator
+class BinaryTreeInorderIterator
 {
 private:
     BinarySearchTree<T> *_tree;
-    BinarySearchTreeNode<T> *_current;
-    stack<BinarySearchTreeNode<T> *> _history;
+    BinaryTreeNode<T> *_current;
+    stack<BinaryTreeNode<T> *> _history;
 
 public:
-    BinarySearchTreeInorderIterator(BinarySearchTree<T> *tree)
+    BinaryTreeInorderIterator(BinarySearchTree<T> *tree)
     {
         _tree = tree;
         Reset();
@@ -35,7 +35,7 @@ public:
         if (_current == nullptr)
             return;
 
-        BinarySearchTreeNode<T> *bufferNode = _current->Right;
+        BinaryTreeNode<T> *bufferNode = _current->Right;
 
         while (bufferNode != nullptr)
         {
@@ -59,7 +59,7 @@ public:
         }
     }
 
-    BinarySearchTreeNode<T> *GetCurrentElement()
+    BinaryTreeNode<T> *GetCurrentElement()
     {
         return _current;
     }

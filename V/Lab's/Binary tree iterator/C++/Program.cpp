@@ -1,10 +1,10 @@
 ﻿#include <iostream>
-#include "BInarySearchTreeInorderIterator.h"
+#include "BinaryTreeInorderIterator.h"
 
 using namespace std;
 
 using type = int;
-using TreeNode = BinarySearchTreeNode<type>;
+using TreeNode = BinaryTreeNode<type>;
 using Tree = BinarySearchTree<type>;
 
 int main()
@@ -20,7 +20,7 @@ int main()
     cout << "Start:\n";
     tree.PrintVertical();
 
-    BinarySearchTreeInorderIterator<type> iterator = BinarySearchTreeInorderIterator<type>(&tree);
+    BinaryTreeInorderIterator<type> iterator = BinaryTreeInorderIterator<type>(&tree);
 
     for (iterator.Reset(); !iterator.IsIterationComplete(); iterator.Next())
         cout << iterator.GetCurrentElementValue() << ' ';
