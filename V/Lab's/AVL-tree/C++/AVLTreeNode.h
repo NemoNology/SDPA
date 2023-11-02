@@ -4,24 +4,26 @@
 using namespace std;
 
 template <typename T>
-class BinaryTreeNode
+class AVLTreeNode
 {
 public:
 	T Value;
+	int Height;
 
-	BinaryTreeNode<T> *Left;
-	BinaryTreeNode<T> *Right;
+	AVLTreeNode<T> *Left;
+	AVLTreeNode<T> *Right;
 
-	BinaryTreeNode<T>(T value, BinaryTreeNode<T> *left = nullptr, BinaryTreeNode<T> *right = nullptr)
+	AVLTreeNode<T>(T value, int height, AVLTreeNode<T> *left = nullptr, AVLTreeNode<T> *right = nullptr)
 	{
 		Value = value;
+		Height = height;
 		Left = left;
 		Right = right;
 	}
 
 	void DisposeChildren()
 	{
-		auto nd{[](stack<BinaryTreeNode<T> *> &s, BinaryTreeNode<T> *&node)
+		auto nd{[](stack<AVLTreeNode<T> *> &s, AVLTreeNode<T> *&node)
 				{
 					if (node->Left != nullptr)
 					{
@@ -35,17 +37,25 @@ public:
 					}
 				}};
 
-		stack<BinaryTreeNode<T> *> s;
+		stack<AVLTreeNode<T> *> s;
 		auto root = this;
 		nd(s, root);
 
 		while (!s.empty())
 		{
-			BinaryTreeNode<T> *node = s.top();
+			AVLTreeNode<T> *node = s.top();
 			s.pop();
 			nd(s, node);
 			delete node;
 		}
+	}
+
+	int GetBalanceFactor()
+	{
+		int heightLeft = Left == nullptr ? 0 : Left->Height;
+		int heightRight = Right == nullptr ? 0 : Right->Height;
+
+		return 	heightRight - heightLeft;
 	}
 
 	string ToString()
@@ -55,17 +65,17 @@ public:
 		l = Left == nullptr ? "NULL" : to_string(Left->Value);
 		r = Right == nullptr ? "NULL" : to_string(Right->Value);
 
-		return "Value: " + to_string(Value) + "; Left: " + l + "; Right: " + r;
+		return "Value: " + to_string(Value) + ", Height: " + to_string(Height) + "; Left: " + l + "; Right: " + r;
 	}
 
-	static void SetNew(BinaryTreeNode<T> *&oldNode, BinaryTreeNode<T> *newNode)
+	static void SetNew(AVLTreeNode<T> *&oldNode, AVLTreeNode<T> *newNode)
 	{
-		BinaryTreeNode<T> *nodeBufferForDelete = oldNode;
+		AVLTreeNode<T> *nodeBufferForDelete = oldNode;
 		oldNode = newNode;
 		delete nodeBufferForDelete;
 	}
 
-	static string ToString(BinaryTreeNode<T> *node)
+	static string ToString(AVLTreeNode<T> *node)
 	{
 		if (node == nullptr)
 			return "NULL";
