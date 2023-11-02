@@ -311,27 +311,4 @@ public:
     {
         return "Root: [" + (Root == nullptr ? "NULL" : Root->ToString()) + "]";
     }
-
-    static BinarySearchTree<int> GetFilledIntegerTree()
-    {
-        int counter = 1;
-        queue<BinaryTreeNode<int> *> q;
-        BinaryTreeNode<int> *root = new BinaryTreeNode<int>(0);
-        q.push(root);
-        for (int i = 0; i < 7; i++)
-        {
-            BinaryTreeNode<int> *node = q.front();
-            q.pop();
-            BinaryTreeNode<int> *l = new BinaryTreeNode<int>(counter);
-            node->Left = l;
-            q.push(l);
-            counter++;
-            BinaryTreeNode<int> *r = new BinaryTreeNode<int>(counter);
-            node->Right = r;
-            q.push(r);
-            counter++;
-        }
-
-        return BinarySearchTree<int>(root);
-    }
 };
