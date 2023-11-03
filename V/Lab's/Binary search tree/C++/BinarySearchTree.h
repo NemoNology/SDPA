@@ -177,8 +177,8 @@ public:
                     BinaryTreeNode<T> **rl = &((*rightBuffer)->Left);
                     if (*rl == nullptr)
                     {
-                        (*nodeBuffer)->Value = (*rightBuffer)->Value;
-                        BinaryTreeNode<T>::SetNew(*rightBuffer, nullptr);
+                        AVLTreeNode<T>::SetNew(*nodeBuffer, *rightBuffer);
+                        AVLTreeNode<T>::SetNew((*nodeBuffer)->Left, *leftBuffer);
                     }
                     else
                     {
