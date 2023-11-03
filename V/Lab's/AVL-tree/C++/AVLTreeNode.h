@@ -21,6 +21,52 @@ public:
 		Right = right;
 	}
 
+	void RotateRight()
+	{
+		T valueBuffer = Value;
+		T leftValueBuffer = Left->Value;
+		AVLTreeNode<T> *leftBuffer = Left;
+		Left = Left->Left;
+		SetNew(leftBuffer, nullptr);
+		Value = leftValueBuffer;
+		Right = new AVLTreeNode<T>(valueBuffer);
+		if (Left != nullptr)
+			Left->UpdateHeight();
+		UpdateHeight();
+	}
+
+	void RotateLeft()
+	{
+		T valueBuffer = Value;
+		T rightValueBuffer = Right->Value;
+		AVLTreeNode<T> *rightBuffer = Right;
+		Right = Right->Right;
+		SetNew(rightBuffer, nullptr);
+		Value = rightValueBuffer;
+		Left = new AVLTreeNode<T>(valueBuffer);
+		if (Right != nullptr)
+			Right->UpdateHeight();
+		UpdateHeight();
+	}
+
+	void Balance()
+	{
+		UpdateHeight();
+		int BF = GetBalanceFactor();
+		if (BF == 2)
+		{
+			if (Right->GetBalanceFactor() < 0)
+				Right->RotateRight();
+			RotateLeft();
+		}
+		else if (BF == -2)
+		{
+			if (Left->GetBalanceFactor() > 0)
+				Left->RotateLeft();
+			RotateRight();
+		}
+	}
+
 	void DisposeChildren()
 	{
 		auto nd{[](stack<AVLTreeNode<T> *> &s, AVLTreeNode<T> *&node)
