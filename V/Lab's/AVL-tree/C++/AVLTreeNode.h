@@ -26,10 +26,14 @@ public:
 		T valueBuffer = Value;
 		T leftValueBuffer = Left->Value;
 		AVLTreeNode<T> *leftBuffer = Left;
+		AVLTreeNode<T> *rightBuffer = Right;
 		Left = Left->Left;
+		Right = new AVLTreeNode<T>(valueBuffer, 1,
+								   leftBuffer != nullptr ? leftBuffer->Right : nullptr,
+								   rightBuffer);
 		SetNew(leftBuffer, nullptr);
+		Right->UpdateHeight();
 		Value = leftValueBuffer;
-		Right = new AVLTreeNode<T>(valueBuffer);
 		if (Left != nullptr)
 			Left->UpdateHeight();
 		UpdateHeight();
@@ -40,10 +44,14 @@ public:
 		T valueBuffer = Value;
 		T rightValueBuffer = Right->Value;
 		AVLTreeNode<T> *rightBuffer = Right;
+		AVLTreeNode<T> *leftBuffer = Left;
 		Right = Right->Right;
+		Left = new AVLTreeNode<T>(valueBuffer, 1,
+								  leftBuffer,
+								  rightBuffer != nullptr ? rightBuffer->Left : nullptr);
 		SetNew(rightBuffer, nullptr);
+		Left->UpdateHeight();
 		Value = rightValueBuffer;
-		Left = new AVLTreeNode<T>(valueBuffer);
 		if (Right != nullptr)
 			Right->UpdateHeight();
 		UpdateHeight();
@@ -65,6 +73,24 @@ public:
 				Left->RotateLeft();
 			RotateRight();
 		}
+	}
+
+	void BalanceDeepRecursive()
+	{
+		if (Left != nullptr)
+			Left->BalanceDeepRecursive();
+		if (Right != nullptr)
+			Right->BalanceDeepRecursive();
+		Balance();
+	}
+
+	void UpdateHeightDeepRecursive()
+	{
+		if (Left != nullptr)
+			Left->UpdateHeightDeepRecursive();
+		if (Right != nullptr)
+			Right->UpdateHeightDeepRecursive();
+		UpdateHeight();
 	}
 
 	void DisposeChildren()
