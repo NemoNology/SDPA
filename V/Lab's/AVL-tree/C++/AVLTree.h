@@ -49,7 +49,7 @@ public:
                     nodeBuffer = nodeBuffer->Left;
             }
 
-            // TODO: Balance node buffer
+            Root->BalanceDeepRecursive();
         }
     }
 
@@ -163,28 +163,11 @@ public:
         cout << "\n";
     }
 
-    static AVLTreeNode<T> *RotateLeft(AVLTreeNode<T> *node)
-    {
-        // TODO: this
-    }
-
-    static AVLTreeNode<T> *RotateRight(AVLTreeNode<T> *node)
-    {
-        // TODO: this
-    }
-
-    static AVLTreeNode<T> *Balance(AVLTreeNode<T> *node)
-    {
-        // TODO: this
-    }
-
     void Delete(T value)
     {
         AVLTreeNode<T> **nodeBuffer = &Root;
 
-        // TODO: add balancing
-
-        while (nodeBuffer != nullptr)
+        while (*nodeBuffer != nullptr)
         {
             AVLTreeNode<T> **leftBuffer = &((*nodeBuffer)->Left);
             AVLTreeNode<T> **rightBuffer = &((*nodeBuffer)->Right);
@@ -200,8 +183,8 @@ public:
                     AVLTreeNode<T> **rl = &((*rightBuffer)->Left);
                     if (*rl == nullptr)
                     {
-                        (*nodeBuffer)->Value = (*rightBuffer)->Value;
-                        AVLTreeNode<T>::SetNew(*rightBuffer, nullptr);
+                        AVLTreeNode<T>::SetNew(*nodeBuffer, *rightBuffer);
+                        AVLTreeNode<T>::SetNew((*nodeBuffer)->Left, *leftBuffer);
                     }
                     else
                     {
@@ -219,6 +202,8 @@ public:
                 else
                     AVLTreeNode<T>::SetNew(*nodeBuffer, *leftBuffer);
 
+                if (Root != nullptr)
+                    Root->BalanceDeepRecursive();
                 break;
             }
             else if (isMore)
