@@ -8,48 +8,32 @@ using type = int;
 using TreeNode = AVLTreeNode<type>;
 using Tree = AVLTree<type>;
 
-// int GetRandomInt(int from, int to)
-// {
-//     return rand() % (to - from + 1) + from;
-// }
-
 int main()
 {
     Tree tree = Tree();
-    // srand(static_cast<unsigned int>(time(0)));
 
-    // TODO: tests
+    int size = 15;
+    for (int i = 0; i < size; i++)
+        tree.Add(i);
 
-    TreeNode *node = new TreeNode(2, 3, new TreeNode(1, 2, new TreeNode(0)));
-    Tree::PrintVertical(node);
-    cout << "Balanced: \n";
-    // node->RotateRight();
-    // Tree::PrintVertical(node);
+    cout << "Start:\n";
+    tree.PrintVertical();
 
-    // int size = 15;
-    // for (int i = 0; i < size; i++)
-    // {
-    //     cout << "Add " << i << "(\\|/) :\n";
-    //     tree.Add(i);
-    //     tree.PrintVertical();
-    // }
+    size += 3;
+    type *numbers = new type[size]{4, 11, 3, 7, 13, 1, 10, 14, 0, 2, 5, 6, 99, 66, 121, 8, 9, 12};
 
-    // cout << "Start:\n";
-    // tree.PrintVertical();
+    cout << "\nDeleting test:\n\n";
 
-    // size = 8;
-    // numbers = new int[size]{76, 40, 15, 30, 20, 25, 28, 50};
+    for (int i = 0; i < size; i++)
+    {
+        type delitingNumber = numbers[i];
+        cout << "Delete " << delitingNumber << "(\\|/) :\n";
+        if (!tree.Contains(delitingNumber))
+            cout << "(Tree doesn't contains " << delitingNumber << ")\n";
+        tree.Delete(delitingNumber);
+        tree.PrintVertical();
+    }
 
-    // cout << "\nDeleting test:\n\n";
-
-    // for (int i = 0; i < size; i++)
-    // {
-    //     type delitingNumber = numbers[i];
-    //     cout << "Delete " << delitingNumber << "(\\|/) :\n";
-    //     tree.Delete(delitingNumber);
-    //     tree.PrintVertical();
-    // }
-
-    // system("pause");
+    system("pause");
     return 0;
 }
