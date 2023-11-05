@@ -135,9 +135,10 @@ public:
     {
         if (_data != nullptr)
         {
-            delete _data;
+            delete[] _data;
             _data = nullptr;
-            _size = _capacity = 0;
         }
+
+        _size = _capacity = 0;
     }
 };
