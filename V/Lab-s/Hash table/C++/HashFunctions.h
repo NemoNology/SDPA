@@ -5,6 +5,10 @@ using namespace std;
 class HashFunctions
 {
 public:
+    /// @brief Popular hash function - MurMur3
+    /// @param key Key, that need to be hashed
+    /// @param seed Seed of hashing alghoritm 
+    /// @return Hash for inputted key
     static int murmur3(string key, int seed = 0)
     {
         int remainder = key.length() & 3;

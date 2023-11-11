@@ -6,13 +6,17 @@
 
 using namespace std;
 
-// template <typename KeyT, typename ValueT>
+/// @brief Hash table
+/// @tparam ValueType Hash table values type
 template <typename ValueType>
 class HashTable
 {
 private:
+    /// @brief Pointer to hash functioon
     int (*_hashFunction)(string, int);
+    /// @brief Hash table capacity
     int _capacity;
+    /// @brief Amount of hash table (not empty) elements
     int _size;
     SeqListNode<pair<string, ValueType>> **_data = nullptr;
 
@@ -22,6 +26,9 @@ private:
     }
 
 public:
+    /// @brief Initialize new hash table
+    /// @param capacity Capacity (max size) for hash table
+    /// @param hashFunction Hash function pointer for hash table
     HashTable(int capacity, int (*hashFunction)(string, int))
     {
         if (hashFunction == nullptr)
@@ -57,6 +64,8 @@ public:
         _size += 1;
     }
 
+    /// @brief Remove value from table by specified key
+    /// @param key Key for specified value 
     void Delete(string key)
     {
         if (_data == nullptr)
@@ -81,16 +90,21 @@ public:
         }
     }
 
+    /// @return Capacity (Max size) of table
     int GetCapacity()
     {
         return _capacity;
     }
 
+    /// @return Table (not empty) elements amount
     int GetSize()
     {
         return _size;
     }
 
+    /// @brief Find value by specified key
+    /// @param key Key that must bring to specified value in table
+    /// @return Value by specified key 
     ValueType Find(string key)
     {
         if (_data == nullptr)
@@ -108,6 +122,10 @@ public:
         throw "Hash table does not contains " + key;
     }
 
+    /// @brief Try to find value by key
+    /// @param key Key that must bring to specified value in table
+    /// @param outValue Found value by specified key
+    /// @return True - if try was successfull; False - otherside
     bool TryFind(string key, ValueType &outValue)
     {
         if (_data == nullptr)
@@ -129,6 +147,9 @@ public:
         return false;
     }
 
+    /// @brief Examinate if table contains value by specified key
+    /// @param key Key that must bring to specified value in table
+    /// @return True - if table contains value by specified key; False - otherside
     bool Contains(string key)
     {
         if (_data == nullptr)
@@ -145,6 +166,8 @@ public:
         return true;
     }
 
+    /// @brief Return all table values
+    /// @return All table values
     vector<ValueType> GetValues()
     {
         vector<ValueType> values = vector<ValueType>(_size);
@@ -164,6 +187,8 @@ public:
         return values;
     }
 
+    /// @brief Return all table keys
+    /// @return All table keys
     vector<string> GetKeys()
     {
         vector<string> values = vector<string>(_size);
@@ -183,6 +208,9 @@ public:
         return values;
     }
 
+    /// @brief Get value by specified key
+    /// @param key Key that must bring to specified value in table
+    /// @return Value by specified key 
     ValueType operator[](string key)
     {
         return Find(key);
@@ -198,6 +226,7 @@ public:
         }
     }
 
+    /// @brief Clear all table data with memory free 
     void Clear()
     {
         if (_data != nullptr)

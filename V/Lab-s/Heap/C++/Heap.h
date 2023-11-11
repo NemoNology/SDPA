@@ -1,14 +1,27 @@
 using namespace std;
 
+/// <summary>
+/// Heap
+/// </summary>
+/// <typeparam name="T">Node value type</typeparam>
 template <typename T>
 class Heap
 {
 private:
+    /// <summary>
+    /// Data array pointer
+    /// </summary>
     T *_data;
+    /// @brief Heap capacity (max size)
     int _capacity;
+    /// @brief Heap elements amount
     int _size;
 
 public:
+    /// <summary>
+    /// Initialize new heap with inputted capacity
+    /// </summary>
+    /// <param name="capacity">- Heap capacity</param>
     Heap(int capacity)
     {
         _capacity = capacity;
@@ -16,6 +29,10 @@ public:
         _data = new T[_capacity];
     }
 
+    /// <summary>
+    /// Initialize new heap and add elements to it from inputted array
+    /// </summary>
+    /// <param name="capacity">- Inputting array</param>
     Heap(T arr[])
     {
         int soe = sizeof(T);
@@ -26,6 +43,10 @@ public:
             Insert(arr[i]);
     }
 
+    /// <summary>
+    /// Add new value with inputted value at the end into heap
+    /// </summary>
+    /// <param name="value">- Inputted value</param>
     void Insert(T value)
     {
         if (_size == _capacity)
@@ -49,6 +70,9 @@ public:
         _size += 1;
     }
 
+    /// <summary>
+    /// Removed max (Heap head) value from heap and balance heap
+    /// </summary>
     void RemoveMax()
     {
         if (_size == 0)
@@ -63,6 +87,11 @@ public:
         _size -= 1;
     }
 
+    /// <summary>
+    /// Balance heap node
+    /// </summary>
+    /// <param name="parentIndex">- Balancing heap node index</param>
+    /// <returns>Changed heap node index</returns>
     int Filter(int parentIndex)
     {
         if (_size < parentIndex)
@@ -99,6 +128,10 @@ public:
         return -1;
     }
 
+    /// <summary>
+    /// Return max value
+    /// </summary>
+    /// <returns>Heap max value</returns>
     T GetMax()
     {
         if (_size < 1)
@@ -107,6 +140,11 @@ public:
         return _data[0];
     }
 
+    /// <summary>
+    /// Try get heap max value
+    /// </summary>
+    /// <param name="outValue">- Outputted heap max out value</param>
+    /// <returns><c>True</c> - if getting was successful; <c>False</c> - otherside</returns>
     bool TryGetMax(T &outValue)
     {
         if (_size < 1)
@@ -116,11 +154,19 @@ public:
         return true;
     }
 
+    /// <summary>
+    /// Return heap size
+    /// </summary>
+    /// <returns>Heap size</returns>
     int GetSize()
     {
         return _size;
     }
 
+    /// <summary>
+    /// Return heap capacity
+    /// </summary>
+    /// <returns>Heap capacity</returns>
     int GetCapacity()
     {
         return _capacity;
@@ -131,14 +177,11 @@ public:
         Clear();
     }
 
+    /// <summary>
+    /// Clear heap values
+    /// </summary>
     void Clear()
     {
-        if (_data != nullptr)
-        {
-            delete[] _data;
-            _data = nullptr;
-        }
-
         _size = _capacity = 0;
     }
 };

@@ -3,30 +3,52 @@
 
 using namespace std;
 
+/// <summary>
+/// SeqList
+/// </summary>
+/// <typeparam name="T">List node value type</typeparam>
 template <typename T>
 class SeqList
 {
 private:
+    /// @brief SeqList nodes amount
     int _size = 0;
 
 public:
+    /// <summary>
+    /// Pointer to list head (start)
+    /// </summary>
     SeqListNode<T> *Head;
 
+    /// @brief Initialize new seqList
+    /// @param root Head pointer
     SeqList(SeqListNode<T> *head = nullptr)
     {
         Head = head;
     }
 
+    /// <summary>
+    /// Calculate list size
+    /// </summary>
+    /// <returns>List size</returns>
     int GetSize()
     {
         return _size;
     }
 
+    /// <summary>
+    /// Examinate if list is empty
+    /// </summary>
+    /// <returns><c>True</c> - if list is empty; <c>False</c> - otherside</returns>
     bool isEmpty()
     {
         return Head == nullptr;
     }
 
+    /// <summary>
+    /// Insert node with inputted value to list the end
+    /// </summary>
+    /// <param name="value">- Inserting value</param>
     void Append(T value)
     {
         SeqListNode<T> *appendedNode = new SeqListNode<T>(value);
@@ -46,7 +68,10 @@ public:
         nodeBuffer->Next = appendedNode;
     }
 
-    // Remove last element from seqList and return it
+    /// <summary>
+    /// Remove the last element from list
+    /// </summary>
+    /// <returns>Removed the last element</returns>
     T Pop()
     {
         if (Head == nullptr)
@@ -68,6 +93,11 @@ public:
         return value;
     }
 
+    /// <summary>
+    /// Try to remove the last element of list
+    /// </summary>
+    /// <param name="outValue">- Removed the last element out value</param>
+    /// <returns><c>True</c> - if try was successful; <c>False</c> - otherside</returns>
     bool TryPop(T &outValue)
     {
         if (Head == nullptr)
@@ -90,6 +120,10 @@ public:
         return true;
     }
 
+    /// <summary>
+    /// Remove the first element from list
+    /// </summary>
+    /// <returns>Removed the last element</returns>
     T Dequeue()
     {
         if (Head == nullptr)
@@ -103,6 +137,11 @@ public:
         return value;
     }
 
+    /// <summary>
+    /// Try to remove the first element of list
+    /// </summary>
+    /// <param name="outValue">- Removed the first element out value</param>
+    /// <returns><c>True</c> - if try was successful; <c>False</c> - otherside</returns>
     bool TryDequeue(T &outValue)
     {
         if (Head == nullptr)
@@ -116,6 +155,9 @@ public:
         return true;
     }
 
+    /// <summary>
+    /// Clear all elements with memory free
+    /// </summary>
     void Clear()
     {
         SeqListNode<T> *nodeBuffer = Head;
@@ -129,6 +171,10 @@ public:
         Head = nullptr;
     }
 
+    /// <summary>
+    /// Count all list elements
+    /// </summary>
+    /// <returns>List elements amount</returns>
     int Count()
     {
         if (Head == nullptr)
@@ -146,6 +192,11 @@ public:
         return counter + 1;
     }
 
+    /// <summary>
+    /// Return list element by index
+    /// </summary>
+    /// <param name="index">- Index of outputed element</param>
+    /// <returns>Element by index</returns>
     T GetElementAt(int index)
     {
         if (index >= _size)
@@ -163,6 +214,12 @@ public:
         return nodeBuffer->Value;
     }
 
+    /// <summary>
+    /// Try to get element by index
+    /// </summary>
+    /// <param name="index">- Index of outputed element</param>
+    /// <param name="outElement">- - Outputed element out value</param>
+    /// <returns><c>True</c> - if try was successful; <c>False</c> - otherside</returns>
     bool TryGetElementAt(int index, int &outElement)
     {
         if (index >= _size)

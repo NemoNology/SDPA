@@ -8,11 +8,21 @@ class AVLTreeNode
 {
 public:
 	T Value;
+	/// <summary>
+	/// Height of current node (Tree depth; 1 - if node do not have children)
+	/// </summary>
 	int Height;
 
+	/// @brief Pointer to left child of current node
 	AVLTreeNode<T> *Left;
+	/// @brief Pointer to right child of current node
 	AVLTreeNode<T> *Right;
 
+	/// @brief Initialize new AVL-tree node
+	/// @param value Value for current node
+	/// @param height Height for current node
+	/// @param left Pointer to left child of current node
+	/// @param right Pointer to right child of current node
 	AVLTreeNode<T>(T value, int height = 1, AVLTreeNode<T> *left = nullptr, AVLTreeNode<T> *right = nullptr)
 	{
 		Value = value;
@@ -21,6 +31,9 @@ public:
 		Right = right;
 	}
 
+	/// <summary>
+	/// Rotate right current node
+	/// </summary>
 	void RotateRight()
 	{
 		T valueBuffer = Value;
@@ -39,6 +52,9 @@ public:
 		UpdateHeight();
 	}
 
+	/// <summary>
+	/// Rotate left current node
+	/// </summary>
 	void RotateLeft()
 	{
 		T valueBuffer = Value;
@@ -57,6 +73,9 @@ public:
 		UpdateHeight();
 	}
 
+	/// <summary>
+	/// Balance current node <i>(Math...)</i>
+	/// </summary>
 	void Balance()
 	{
 		UpdateHeight();
@@ -75,6 +94,9 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Balance all current tree node (Include children) starting from leafes
+	/// </summary>
 	void BalanceDeepRecursive()
 	{
 		if (Left != nullptr)
@@ -84,6 +106,9 @@ public:
 		Balance();
 	}
 
+	/// <summary>
+	/// Recalculate all current tree node height (Include children) starting from children
+	/// </summary>
 	void UpdateHeightDeepRecursive()
 	{
 		if (Left != nullptr)
@@ -93,6 +118,9 @@ public:
 		UpdateHeight();
 	}
 
+	/// <summary>
+	/// Dispose all children with memory free
+	/// </summary>
 	void DisposeChildren()
 	{
 		auto nd{[](stack<AVLTreeNode<T> *> &s, AVLTreeNode<T> *&node)
@@ -122,6 +150,10 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Calculate current node balance factor
+	/// </summary>
+	/// <returns>Balance factor</returns>
 	int GetBalanceFactor()
 	{
 		int heightLeft = Left == nullptr ? 0 : Left->Height;
@@ -130,6 +162,9 @@ public:
 		return heightRight - heightLeft;
 	}
 
+	/// <summary>
+	/// Recalculate current node height
+	/// </summary>
 	void UpdateHeight()
 	{
 		int heightOfLeft = Left == nullptr ? 0 : Left->Height;
@@ -137,6 +172,10 @@ public:
 		Height = (heightOfLeft > heightOfRight ? heightOfLeft : heightOfRight) + 1;
 	}
 
+	/// <summary>
+	/// Convert node into string value
+	/// </summary>
+	/// <returns>Node as string value</returns>
 	string ToString()
 	{
 		string l, r;
@@ -147,6 +186,11 @@ public:
 		return "Value: " + to_string(Value) + ", Height: " + to_string(Height) + "; Left: " + l + "; Right: " + r;
 	}
 
+	/// <summary>
+	/// Setted old node into new node with memory free
+	/// </summary>
+	/// <param name="oldNode"> Setting node </param>
+	/// <param name="newNode"> Setted node </param>
 	static void SetNew(AVLTreeNode<T> *&oldNode, AVLTreeNode<T> *newNode)
 	{
 		AVLTreeNode<T> *nodeBufferForDelete = oldNode;
@@ -154,6 +198,11 @@ public:
 		delete nodeBufferForDelete;
 	}
 
+	/// <summary>
+	/// Convert inputted node into string
+	/// </summary>
+	/// <param name="node">Converting node</param>
+	/// <returns>Converted node</returns>
 	static string ToString(AVLTreeNode<T> *node)
 	{
 		if (node == nullptr)

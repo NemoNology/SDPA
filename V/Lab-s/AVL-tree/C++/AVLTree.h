@@ -6,17 +6,30 @@
 
 using namespace std;
 
+/// <summary>
+/// AVL-Tree
+/// </summary>
+/// <typeparam name="T">Node value type</typeparam>
 template <typename T>
 class AVLTree
 {
 public:
+    /// <summary>
+    /// Tree root node
+    /// </summary>
     AVLTreeNode<T> *Root;
 
+    /// @brief Initialize new AVL-tree 
+    /// @param root Root pointer for initializing tree
     AVLTree(AVLTreeNode<T> *root = nullptr)
     {
         Root = root;
     }
 
+    /// <summary>
+    /// Add new node with inputted value into tree
+    /// </summary>
+    /// <param name="value">- Inputted value</param>
     void Add(T value)
     {
         auto addingNode = new AVLTreeNode<T>(value);
@@ -53,6 +66,11 @@ public:
         }
     }
 
+    /// <summary>
+    /// Examinate if node with inputted value is contained in tree
+    /// </summary>
+    /// <param name="value">- Searched value</param>
+    /// <returns><c>True</c> - if node with inputted value is contained in tree; <c>False</c> - otherside</returns>
     bool Contains(T value)
     {
         AVLTreeNode<T> *nodeBuffer = Root;
@@ -71,6 +89,11 @@ public:
         return false;
     }
 
+    /// <summary>
+    /// Examinate if node with inputted value is contained in tree and return it
+    /// </summary>
+    /// <param name="value">- Searched value</param>
+    /// <returns><c>Node</c> - if that node with inputted value is contained in tree; <c>Nullptr</c> - otherside</returns>
     AVLTreeNode<T> *Find(T value)
     {
         AVLTreeNode<T> *nodeBuffer = Root;
@@ -89,6 +112,12 @@ public:
         return nullptr;
     }
 
+    /// <summary>
+    /// Print inputed tree node horizontal (Recursive alghoritm)
+    /// </summary>
+    /// <param name="node">- Inputted tree node</param>
+    /// <param name="level">- Level of node - Depth</param>
+    /// <param name="indent">- Indent between parent and child (level)</param>
     void PrintHorizontalRecursive(AVLTreeNode<T> *node, int level = 0, int indent = 6)
     {
         if (node == nullptr)
@@ -109,11 +138,24 @@ public:
             PrintHorizontalRecursive(l, level + 1, indent);
     }
 
+    /// <summary>
+    /// Print tree vertical
+    /// </summary>
+    /// <param name="dataWidth">- maximum symbols amount, that can occupy the largest value in the tree</param>
+    /// <param name="canvasWidth">- Symbols amount, that tree print will be occupy</param>
+    /// <param name="nullValue">- Value, that prints instead of nullptr/empty nodes</param>
     void PrintVertical(int dataWidth = 2, int canvasWidth = 64, string nullValue = "--")
     {
         PrintVertical(Root, dataWidth, canvasWidth, nullValue);
     }
 
+    /// <summary>
+    /// Print inputted tree node vertical
+    /// </summary>
+    /// <param name="node">- Printed tree node</param>
+    /// <param name="dataWidth">- maximum symbols amount, that can occupy the largest value in the tree</param>
+    /// <param name="canvasWidth">- Symbols amount, that tree print will be occupy</param>
+    /// <param name="nullValue">- Value, that prints instead of nullptr/empty nodes</param>
     static void PrintVertical(AVLTreeNode<T> *node, int dataWidth = 2, int canvasWidth = 64, string nullValue = "--")
     {
         queue<pair<AVLTreeNode<T> *, pair<int, int>>> q;
@@ -163,6 +205,10 @@ public:
         cout << "\n";
     }
 
+    /// <summary>
+    /// Remove node with inputted value from tree
+    /// </summary>
+    /// <param name="value">- Inputting value</param>
     void Delete(T value)
     {
         AVLTreeNode<T> **nodeBuffer = &Root;
@@ -213,6 +259,10 @@ public:
         }
     }
 
+    /// <summary>
+    /// Count tree nodes
+    /// </summary>
+    /// <returns>- Tree nodes amount</returns>
     int Count()
     {
         if (Root == nullptr)
@@ -243,6 +293,10 @@ public:
         return count;
     }
 
+    /// <summary>
+    /// Count tree leafes (nodes without children)
+    /// </summary>
+    /// <returns>- Tree leafes amount</returns>
     int CountLeaf()
     {
         if (Root == nullptr)
@@ -269,6 +323,11 @@ public:
         return count;
     }
 
+    /// <summary>
+    /// Get tree depth (Numbers of levels)
+    /// </summary>
+    /// <returns>- Depth value</returns>
+    /// <see cref="Depth"/>
     int GetDepth()
     {
         if (Root == nullptr)
@@ -305,6 +364,9 @@ public:
         Clear();
     }
 
+    /// <summary>
+    /// Clear tree include root
+    /// </summary>
     void Clear()
     {
         if (Root != nullptr)
@@ -315,6 +377,10 @@ public:
         }
     }
 
+    /// <summary>
+    /// Convert root to string value
+    /// </summary>
+    /// <returns>Root as string value</returns>
     string ToString()
     {
         return "Root: [" + (Root == nullptr ? "NULL" : Root->ToString()) + "]";
